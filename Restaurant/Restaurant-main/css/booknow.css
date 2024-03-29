@@ -1,0 +1,14 @@
+input#date, select {
+    padding: 1.5em;
+    background: var(--main-dark);
+    border: none;
+    border-radius: .3em;
+    color: white;
+}
+
+.btn-2 {
+    padding: 1.5em;
+    border: none;
+    cursor: pointer;
+    background-color: var(--main-dark);
+}

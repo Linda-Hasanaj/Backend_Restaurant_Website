@@ -1,0 +1,110 @@
+.header {
+    background-image: url(../images/home/headerBackground.jpg);
+}
+
+.headerContent > input {
+    width: 50%;
+    padding: 1.2em;
+    border-radius: 3em;
+    border: none;
+    line-height: 22px;
+    background-color: var(--main-dark);
+}
+
+.nav-item:nth-child(5) .nav-link{
+    color: var(--gold-yellow);
+}
+
+input[type="text"] {
+    color: white;
+    text-align: center;
+}
+
+input::placeholder {
+    color: white;
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+.delivery {
+    padding: 1em;
+}
+
+.starters-title {
+    text-align: center;
+    padding: 1em 0 2em 0;
+    font-size: 1.3rem;
+    color: var(--gold-yellow);
+}
+
+.starters-title > h1 {
+    font-size: 3rem;
+}
+
+.product {
+    text-align: center;
+    border: 1px solid var(--gold-yellow);
+    border-radius: .35em;
+    padding: .5em;
+    margin-bottom: 2em;
+}
+
+.product-title {
+    margin: 1em 0;
+}
+
+.btn {
+    background-color: var(--main-dark);
+    margin-top: 1em;
+    cursor: pointer;
+}
+
+.orders-title {
+    color: var(--gold-yellow);
+    border-bottom: 1px solid var(--gold-yellow);
+}
+
+.total {
+    border-top: 1px solid var(--gold-yellow);
+    display: flex;
+    justify-content: space-between;
+}
+.food-items > p {
+    margin: .4em 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#total {
+    font-size: 1.25rem;
+}
+
+.order-button {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (min-width: 700px){
+
+    .delivery {
+        max-width: 1100px;
+        padding: 2rem 4rem;
+        margin-inline: auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        column-gap: 50px;
+    }
+
+    .starters-title {
+        grid-column: 1/-1;
+    }
+
+    .starters-product {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    
+
+}

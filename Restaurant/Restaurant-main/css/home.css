@@ -1,0 +1,354 @@
+.header {
+    background-image: url(../images/home/headerBackground.jpg);
+}
+
+.hidden {
+    opacity: 0;
+    transition: all 1s;
+}
+.show {
+    opacity: 1;
+}
+.nav-item:nth-child(2) .nav-link{
+    color: var(--gold-yellow);
+}
+
+.section-one {
+    padding: 1em;
+}
+
+.tradition {
+    padding: 3em 0;
+    text-align: center;
+}
+
+.tradition p {
+    font-size: .8rem;
+}
+
+.tradition h2 {
+    font-weight: 400;
+}
+
+.section-one--image img {
+    border-radius: 10em 10em 0 0;
+}
+
+.description-title {
+    margin: 1em 0;
+}   
+
+.description-text {
+    margin-bottom: 1em;
+}
+
+.prouduct{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2em 0;
+
+    
+
+}
+
+.prouct-img img{
+    border-radius: 50%;
+    width: 80px;
+}
+
+.product-title{
+    align-self: flex-start;
+    width: 50%;
+    font-size: .7rem;
+    text-align: left;
+}
+
+.product-price {
+    align-self: flex-start;
+    color: var(--gold-yellow);
+}
+
+.section-two--photo{
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.section-two--photo img {
+    transition: transform .4s ease-in;
+}
+
+.section-two--details{
+    display: none;
+    position: absolute;
+    z-index: 1;
+    bottom: 20px;
+    left: 20px;
+    
+}
+
+.section-two--photo:hover .section-two--details{
+    display: block;    
+}
+
+.section-two--photo:hover img {
+    transform: scale(1.3);
+    
+}
+
+.section-three {
+    padding: 1em;
+}
+
+.menu  {
+    text-align: center;
+}
+
+.menu-description {
+    color: var(--gold-yellow);
+    position: relative;
+    text-transform: uppercase;
+}
+
+.menu-description::after {
+    content: '';
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    border-bottom: 1.2px solid var(--gold-yellow);
+    
+}
+
+.menu > h2{
+    margin: 1rem 0;
+    font-weight: 400;
+}
+
+.menu-button {
+    text-align: center;
+    margin: 1em 0 2em 0;
+}
+
+.section-four {
+    background-image: url(../images/home/section-four.jpg);
+    background-size: cover;
+    text-align: center;
+}
+
+.section-four--container {
+    padding: 3em 1em;
+
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+.section-four--container > p {
+    width: 30%;
+    margin-inline: auto;
+}
+
+.section-four h2 {
+    margin: 1.2em 0 1.7em 0;
+    font-weight: 400;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.section-five {
+    background-color: #222F3D;
+    
+}
+
+.five-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 2em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.s-five--title h1{
+    font-weight: 400;
+    font-size: 3rem;
+    color: var(--gold-yellow);
+}
+
+.s-five--title p {
+    font-size: .8rem;
+}
+
+.section-six {
+    padding: 1rem;
+}
+
+.contact-us h1{
+    margin: 1em 0 1.5em 0;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 2rem;
+}
+
+.contact-us p:last-child {
+    letter-spacing: .5px;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #d0d7df;
+}
+
+.contact-form {
+    margin: 2em 0;
+}
+
+.contact-form input {
+    margin-bottom: 1em;
+    width: 100%;
+    padding: 1em;
+    background: none;
+    color: white;
+    border: none;
+    border-bottom: 1px solid #d0d7df;
+}
+
+.contact-form input::placeholder {
+    color: #d0d7df;
+}
+
+.contact-form form{
+    margin-bottom: 2em;
+}
+
+@media screen and (min-width: 700px) {
+    .tradition h2 {
+        font-size: 3rem;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-gap: 30px;
+        place-items: center;    
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: .5fr 1.5fr 1.5fr;
+        grid-template-areas: 
+            "tradition tradition tradition"
+            "descriptionOne sectionOneImg descriptionThree"
+            "descriptionTwo sectionOneImg descriptionFour";
+    }
+
+    .tradition {
+        padding: 1em 0;
+        grid-area: tradition;
+    }
+
+    .description-title {
+        font-size: 1.3rem;
+        margin: .4em 0;
+    }
+
+    .description-one {
+        grid-area: descriptionOne;
+        text-align: right;
+    }
+
+    .description-two {
+        grid-area: descriptionTwo;
+        text-align: right;
+    }
+
+    .section-one--image {
+        grid-area: sectionOneImg;
+        
+    }
+
+    .description-three {
+        grid-area: descriptionThree;
+    }
+
+    .description-four {
+        grid-area: descriptionFour;
+    }
+
+    .section-one--image img {
+        border-radius: 20em 20em 0 0;
+    }
+    
+    .section-two--photos {
+        display: flex;
+    }
+
+    .section-two--details {
+        width: 100%;
+        padding: 1em;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .menu-description {
+        font-size: .8rem;
+    }
+
+    .menu > h2, .section-four > h2, .contact-us > h1{
+        font-size: 3rem;
+    }
+
+    .menu-grid--container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 30px;
+        margin: 3em 0;
+    }
+
+    .prouduct {
+        justify-content: space-evenly;
+        margin: 0;
+    }
+
+    .product-title, .product-price {
+        align-self: center;
+    }
+
+    .five-grid {
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .six-grid--container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: .7fr 1fr;
+        column-gap: 50px;
+    }
+
+    .contact-form {
+        grid-row: 2/-1;
+    }
+
+    .contact-form-flex {
+        display: flex;
+        gap: 10px;
+    }
+
+    .six-images {
+        grid-column: 2/-1;
+        grid-row: 1/-1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .image1, .image2 {
+        width: 47%;
+        
+    }
+
+    .image2 {
+        align-self: flex-start;
+    }
+
+    .six-images img {
+        border-radius: 10em 10em 0 0;
+    }
+
+    
+}

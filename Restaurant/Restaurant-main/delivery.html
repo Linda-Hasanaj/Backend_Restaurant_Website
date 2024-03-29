@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/delivery.css">
+    <script src="https://kit.fontawesome.com/1506ca5daa.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav row" id="nav">
+            <h1 class="header-title">LaTulipe</h1>
+
+            <a href="javascript:void(0);" onclick="displayMenu()" class="menu-mobile" id="menu-mobile">
+                <i class="fa-solid fa-bars" ></i>
+            </a>
+            <ul class="nav-list row" id="nav-list">
+                <li class="nav-item"><a href="javascript:void(0);" onclick="removeMenu()" class="nav-link"><i class="fa-solid fa-xmark"></i></a></li>
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="delivery.html" class="nav-link">Delivery</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Log In</a></li>
+                <li class="nav-item"><a href="register.html" class="nav-link">Register</a></li>
+                <li class="nav-item"><a href="booknow.html" class="nav-link btn">Book now</a></li>
+            </ul>
+        </nav>
+
+        <div class="headerContent">
+            <p>MODERN STYLE CUISINE</p>
+            <h1>ORDER FOOD</h1>
+            <input type="text" placeholder="Your Address or postal code">
+        </div>
+
+    </header>
+
+    <section class="delivery">
+        <div class="starters-title">
+            <h1>ORDER NOW</h1>
+        </div>
+        <div class="menu-items">
+            <div class="starters-product">
+                <div class="product">
+                    <div class="product-img">
+                        <img src="images/menu/Starters1.jpg" alt="">
+                    </div>
+                    <div class="product-title">
+                        <h2 id="item-1">TOMATO BRUSCHETTA</h2>
+                        <p>Tomates, Olive Oil, Cheese</p>
+                    </div>
+                    <div class="product-price">
+                        <p>$ <span id="price-1">5</span></p>
+                        <button class="btn" id="add-item-1">Add to cart</button>
+                    </div>
+                </div>
+
+                <div class="product">
+                    <div class="product-img">
+                        <img src="images/menu/starters2.jpg" alt="">
+                    </div>
+                    <div class="product-title">
+                        <h2 id="item-2">CHEESE PLATE</h2>
+                        <p>Selected Cheeses, Grapes</p>
+                    </div>
+                    <div class="product-price">
+                        <p>$ <span id="price-2">11</span></p>
+                        <button class="btn" id="add-item-2">Add to cart</button>
+
+                    </div>
+                </div>
+
+                <div class="product">
+                    <div class="product-img">
+                        <img src="images/menu/starters3.jpg" alt="">
+                    </div>
+                    <div class="product-title">
+                        <h2 id="item-3">EGGS BENEDICT</h2>
+                        <p>2 Eggs, Spinach, Potatoes</p>
+                    </div>
+                    <div class="product-price">
+                        <p>$ <span id="price-3">9</span></p>
+                        <button class="btn" id="add-item-3">Add to cart</button>
+                    </div>
+                </div>
+
+                <div class="product">
+                    <div class="product-img">
+                        <img src="images/menu/starters4.jpg" alt="">
+                    </div>
+                    <div class="product-title">
+                        <h2 id="item-4">GUACAMOLE</h2>
+                        <p>Avocado, Tomatoes, Nachos</p>
+                    </div>
+                    <div class="product-price">
+                        <p>$ <span id="price-4">7</span></p>
+                        <button class="btn" id="add-item-4">Add to cart</button>
+                    </div>
+                </div>
+
+                <div class="product">
+                    <div class="product-img">
+                        <img src="images/menu/starters5.jpg" alt="">
+                    </div>
+                    <div class="product-title">
+                        <h2 id="item-5">BAKED POTATO SKINS</h2>
+                        <p>Potatoes, Oil, Garlic</p>
+                    </div>
+                    <div class="product-price">
+                        <p>$ <span id="price-5">8</span></p>
+                        <button class="btn" id="add-item-5">Add to cart</button>
+                    </div>
+                </div>
+
+                <div class="product">
+                    <div class="product-img">
+                        <img src="images/menu/starters6.jpg" alt="">
+                    </div>
+                    <div class="product-title">
+                        <h2 id="item-6">JAMBON IBERICO</h2>
+                        <p>Smoked Tomato Aioli</p>
+                    </div>
+                    <div class="product-price">
+                        <p>$ <span id="price-6">10</span></p>
+                        <button class="btn" id="add-item-6">Add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="ordered-items">
+            <div class="orders-title">
+                <h2>Your order</h2>
+            </div>
+            <div class="food-items" id="cart"></div>
+            <div class="total">
+                <h2>TOTAL</h2>
+                <p class="price" id="total">$0</p>
+            </div>
+            <div class="order-button">
+                <button class="btn" id="order-now">ORDER NOW</button>
+                <button class="btn" id="clear">CLEAR</button>
+            </div>
+        </aside>
+    </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <p>40 Park Ave, Brooklyn, New York</p>
+                    <p>1-800-111-2222</p>
+                    <p>contact@example.com</p>
+                    <div class="footer-socials">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-content">
+                <h1>LaTulipe</h1>
+            </div>
+            <div class="footer-content">
+                <p>Monday - Friday: 9AM - 9PM</p>
+                <p>Saturday: 9AM - 11PM</p>
+                <p>Sunday: 9AM - 11PM</p>
+                <p>Happy Hours: 9AM - 12AM</p>
+            </div>
+        </div>
+
+    </footer>
+    <script src="javascript/index.js"></script>
+    <script src="javascript/delivery.js"></script>
+
+</body>

@@ -1,0 +1,136 @@
+:root {
+    --main-dark: #0e1721;
+    --gold-yellow: #ffc999;
+}
+ 
+.nav-item:nth-child(3) .nav-link{
+    color: var(--gold-yellow);
+}
+
+.header{
+    background-image: url(../images/menu/Background-menu.jpg);
+}
+
+.information{
+    background-color: rgba(0, 0, 0, 0.6);
+    
+}
+
+.information-section {
+    padding: 0;
+}
+
+.headerContent{
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+section{
+    text-align: center;
+    padding: 1em;
+}
+
+.prouduct{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2em 0;
+
+    
+
+}
+
+.prouct-img img{
+    border-radius: 50%;
+    width: 80px;
+}
+
+.product-title{
+    align-self: flex-start;
+    width: 50%;
+    font-size: .7rem;
+    text-align: left;
+}
+
+.product-price {
+    align-self: flex-start;
+    color: var(--gold-yellow);
+}
+
+.starters-title {
+    text-align: left;
+    position: relative;
+   
+}
+
+.starters-title  h1 {
+    font-weight: 400;
+    color: var(--gold-yellow);
+}
+
+.starters-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border: 1px solid var(--gold-yellow);
+}
+
+.information-section{
+    background-image: url(../images/menu/backgroud-image-menu-2.jpg);
+    background-size: cover;
+
+}
+
+.information .col {
+    padding: 3em;
+    
+}
+
+.information .col > h1 {
+    margin: .7em 0 1.7em 0;
+}
+
+@media screen and (min-width: 700px) {
+
+    .starters-product{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 30px;
+        margin: 3em 0;
+    }
+    .prouduct{
+        margin: 0;
+        justify-content: space-evenly;
+    }
+
+    .container {
+        padding: 0 4em;
+    }
+
+    .product-title, .product-price{
+        align-self: center;
+    }
+    
+    .starters-title{
+        font-size: 1.2rem;
+    }
+
+    .starters-title:first-child{
+        padding: 1em 0 0 0;
+    }
+
+
+
+   
+    .information{
+        width: 100%;
+    }
+
+    .footer {
+        padding: 5em;
+    }
+
+    
+}

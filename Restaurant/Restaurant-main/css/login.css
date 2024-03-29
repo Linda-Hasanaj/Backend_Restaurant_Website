@@ -1,0 +1,85 @@
+:root {
+    --main-dark: #0e1721;
+    --gold-yellow: #ffc999;
+}
+
+.header {
+    background-image: url(../images/home/headerBackground.jpg);
+}
+
+
+.nav-item:nth-child(6) .nav-link{
+    color: var(--gold-yellow);
+}
+
+.login-content {
+    height:90vh;
+    display: grid;
+    align-items: center;
+}
+
+.login-details {
+    text-align: left;
+    background: rgba(0,0,0,0.2);
+    padding: 1em;       
+}
+
+form > * {
+    display: block;
+    margin: .5em 0;
+}
+
+.login-details h1 {
+    margin: 0 0 .4em 0;
+    color: var(--gold-yellow);
+}
+
+.login-details h3 {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+input {
+    margin-bottom: 1em;
+    width: 100%;
+    padding: 1em;
+    background: none;
+    color: white;
+    border: none;
+    border-bottom: 1px solid #d0d7df;
+}
+
+input::placeholder {
+    color: #d0d7df;
+}
+
+
+.underline {
+    text-decoration: underline;
+}
+
+
+.btn {
+    background: none;
+}
+
+@media screen and (min-width: 700px){
+
+
+    .login-container {
+        display: flex;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .login-details{
+        width: 30%;
+
+    }
+
+    .login-photo{
+        width: 70%;
+        background-image: url(../images/menu/Background-menu.jpg);
+        background-size: cover;
+    }
+}
