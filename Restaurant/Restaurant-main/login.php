@@ -14,6 +14,43 @@
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
+
+<?php
+$email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
+$email_error="";
+$emailvalid=false;
+
+
+function input_data($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    
+    if(empty($_POST["email"])){
+        $email_error = "border-bottom: 1px solid red;";
+    } else {
+        $email=input_data($_POST["email"]);
+        if(!preg_match($email_pattern,$email)){
+            $email_error = "border-bottom: 1px solid red;";
+        }else{
+            $emailvalid=true;
+        }
+    }
+
+    if ($emailvalid) {
+        // Vendosni emrin e faqes së loginit në këtë variabël
+        $index_page = "index.html";
+        // Kalimi në faqen e loginit
+        header("Location: $index_page");
+        exit();
+    }
+}
+?>
     <header class="header">
         <nav class="nav row" id="nav">
             <h1 class="header-title">LaTulipe</h1>
@@ -27,7 +64,7 @@
                 <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                 <li class="nav-item"><a href="delivery.html" class="nav-link">Delivery</a></li>
-                <li class="nav-item"><a href="login.html" class="nav-link">Log In</a></li>
+                <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
                 <li class="nav-item"><a href="register.php" class="nav-link">Register</a></li>
                 <li class="nav-item"><a href="booknow.html" class="nav-link btn">Book now</a></li>
             </ul>
@@ -40,14 +77,15 @@
                     <h1>Welcome Back</h1>
                     <p>Sign in with your email address and password</p>
 
-                    <form onsubmit="return false;">
-                        <input type="email" name="email" id="email" placeholder="Email">
-                        <input type="password" name="password" id="password" placeholder="Password">
-                        <a href="#" class="underline">Reset Password</a>
-                        <button id="sign" class="btn">Log In</button>
+                    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                        <input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error; ?>">
+                        <input type="password" name="password" id="password" placeholder="Password" style="<?php echo $email_error; ?>">
+                        <a href="#" class="underline">Reset Password  </a>
+                        <input type="submit" id="sign" name="sign" class="btn" value="Log in">
+                      <!---  <button id="sign" class="btn">Log In</button>-->
                     </form>
 
-                    <p>Don't have an account? <a href="register.php" class="underline">Register</a></p>
+                    <p>Don't have an account? <a href="register.html" class="underline">Register</a></p>
                 </div>
                 <div class="login-photo">
                     
@@ -83,7 +121,6 @@
     </footer>
 
     <script src="javascript/index.js"></script>
-    <script src="javascript/validimet.js"></script>
 </body>
 
 

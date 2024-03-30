@@ -116,7 +116,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if ($namevalid && $surnamevalid && $emailvalid && $numbervalid && $pass1valid && $pass2valid) {
         // Vendosni emrin e faqes së loginit në këtë variabël
-        $login_page = "login.html";
+        $login_page = "login.php";
         // Kalimi në faqen e loginit
         header("Location: $login_page");
         exit();
@@ -137,7 +137,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <li class="nav-item"><a href="menu.html" class="nav-link">Menu</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                 <li class="nav-item"><a href="delivery.html" class="nav-link">Delivery</a></li>
-                <li class="nav-item"><a href="login.html" class="nav-link">Log In</a></li>
+                <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
                 <li class="nav-item"><a href="register.php" class="nav-link">Register</a></li>
                 <li class="nav-item"><a href="booknow.html" class="nav-link btn">Book now</a></li>
             </ul>
