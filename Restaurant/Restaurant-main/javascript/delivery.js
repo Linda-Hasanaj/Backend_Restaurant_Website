@@ -51,6 +51,18 @@
         addToCart(item, price);
       });
 
+      document.getElementById("add-item-7").addEventListener("click", function() {
+        let item = document.getElementById("item-7").innerText;
+        let price = document.getElementById("price-7").innerText;
+        addToCart(item, price);
+      });
+
+      document.getElementById("add-item-8").addEventListener("click", function() {
+        let item = document.getElementById("item-8").innerText;
+        let price = document.getElementById("price-8").innerText;
+        addToCart(item, price);
+      });
+
     document.getElementById("clear").addEventListener("click", function(){
         document.getElementById("total").innerHTML = "$0";
         total = 0;
