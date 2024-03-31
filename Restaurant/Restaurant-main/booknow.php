@@ -19,6 +19,22 @@
         .nav-item:nth-child(4) .nav-link{
             color: white;
         }
+                .hidden {
+            display: none;
+}
+
+    #successMessage p {
+        margin: 0; /* Reset margin for paragraph inside success message */
+        background-color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Crimson Text', serif;;
+    }
+
     </style>
 </head>
 <body>
@@ -63,13 +79,7 @@
 
     }
     
-    if ($datevalid && $pvalid && $timevalid) {
-        // Vendosni emrin e faqes së loginit në këtë variabël
-        $go_page = "checkout.php";
-        // Kalimi në faqen e loginit
-        header("Location: $go_page");
-        exit();
-    }
+    
 
 }
     
@@ -127,6 +137,10 @@
             </div>
         </div>
 
+        <div id="successMessage" class="hidden">
+        <p style="font-size: 50px;">Booking successful!</p>
+    </div>
+
     </header>
 
     <footer class="footer">
@@ -154,5 +168,24 @@
         </div>
 
     </footer>
-    <script src="javascript/index.js"></script>            
+    <script src="javascript/index.js"></script>     
+    <script>
+    window.onload = function() {
+        var success = "<?php echo isset($_POST['date']) && $datevalid && $pvalid && $timevalid ? 'true' : 'false'; ?>";
+        
+        if (success === "true") {
+            var headerContent = document.querySelector(".headerContent");
+            var successMessage = document.getElementById("successMessage");
+
+            // Set the dimensions of successMessage to match headerContent
+            successMessage.style.width = headerContent.offsetWidth + "px";
+            successMessage.style.height = headerContent.offsetHeight + "px";
+
+            headerContent.style.display = "none"; // Hide the header content
+            successMessage.classList.remove("hidden"); // Display the success message
+        }
+    };
+</script>
+
+
 </body>

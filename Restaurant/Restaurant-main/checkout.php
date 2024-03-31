@@ -22,6 +22,24 @@
             padding: 3em;
             background-color: var(--main-dark);
         }
+        .hidden {
+            display: none;
+}
+
+#successMessage p {
+        margin: 0; /* Reset margin for paragraph inside success message */
+        background-color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Crimson Text', serif;;
+    font-size: 50px;
+    }
+
+
     </style>
 </head>
 <body>
@@ -91,11 +109,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 
-    if ($namevalid && $addressvalid && $emailvalid && $numbervalid ) {
+    /*if ($namevalid && $addressvalid && $emailvalid && $numbervalid ) {
         $login_page = "login.php";
         header("Location: $login_page");
         exit();
-    }
+    }*/
 }
 
 ?>
@@ -133,6 +151,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </form>
             </aside>
         </div>
+        <div id="successMessage" class="hidden">
+            <p>Thank you for your order!</p>
+
+        </div>
 
     </header>
   
@@ -167,6 +189,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
         </footer>
         <script src="javascript/index.js"></script>
+        <script>
+    window.onload = function() {
+        var success = "<?php echo  $namevalid && $addressvalid && $emailvalid && $numbervalid  ? 'true' : 'false'; ?>";
+        
+        if (success === "true") {
+            var headerContent = document.querySelector(".headerContent");
+            var successMessage = document.getElementById("successMessage");
+
+            // Set the dimensions of successMessage to match headerContent
+            successMessage.style.width = headerContent.offsetWidth + "px";
+            successMessage.style.height = headerContent.offsetHeight + "px";
+
+            headerContent.style.display = "none"; // Hide the header content
+            successMessage.classList.remove("hidden"); // Display the success message
+        }
+    };
+</script>
+
     
 
 </body>
