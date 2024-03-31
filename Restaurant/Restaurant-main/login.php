@@ -16,9 +16,17 @@
 <body>
 
 <?php
+session_start();
+
 $email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
 $email_error="";
+$password_error="";
 $emailvalid=false;
+$passvalid=false;
+$message="";
+$passwords="";
+$emails="";
+$passwords="";
 
 
 function input_data($data) {
@@ -28,28 +36,47 @@ function input_data($data) {
     return $data;
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_SESSION['email'])&&isset($_SESSION['password2'])){
+        $emails=$_SESSION['email'];
+        $passwords=$_SESSION['password2'];
+    }
     
     if(empty($_POST["email"])){
         $email_error = "border-bottom: 1px solid red;";
     } else {
         $email=input_data($_POST["email"]);
-        if(!preg_match($email_pattern,$email)){
+        if(!preg_match($email_pattern,$email) && $password!==$passwords){
+            $message="Incorrect email or password";
             $email_error = "border-bottom: 1px solid red;";
         }else{
             $emailvalid=true;
         }
     }
+    if(empty($_POST["password"])){
+        $password_error = "border-bottom: 1px solid red;";
+    } else {
+        $password=input_data($_POST["password"]);
+        if($password !== $passwords){
+            $password_error = "border-bottom: 1px solid red;";
+            $message="Incorrect email or password";
+        }else{
+            $passvalid=true;
+        }
+    }
 
-    if ($emailvalid) {
+    if ($emailvalid && $passvalid) {
         // Vendosni emrin e faqes së loginit në këtë variabël
         $index_page = "index.html";
         // Kalimi në faqen e loginit
         header("Location: $index_page");
         exit();
     }
+
 }
+
+
 ?>
     <header class="header">
         <nav class="nav row" id="nav">
@@ -66,7 +93,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <li class="nav-item"><a href="delivery.html" class="nav-link">Delivery</a></li>
                 <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
                 <li class="nav-item"><a href="register.php" class="nav-link">Register</a></li>
-                <li class="nav-item"><a href="booknow.html" class="nav-link btn">Book now</a></li>
+                <li class="nav-item"><a href="booknow.php" class="nav-link btn">Book now</a></li>
             </ul>
         </nav>
 
@@ -80,7 +107,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                         <input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error; ?>">
                         <input type="password" name="password" id="password" placeholder="Password" style="<?php echo $email_error; ?>">
-                        <a href="#" class="underline">Reset Password  </a>
+                        <a href="#" >Reset Password       <span style="color: red; text-decoration: none;" >    <?php echo $message; ?></span>  </a>
                         <input type="submit" id="sign" name="sign" class="btn" value="Log in">
                       <!---  <button id="sign" class="btn">Log In</button>-->
                     </form>

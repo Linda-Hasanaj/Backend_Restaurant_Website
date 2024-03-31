@@ -26,6 +26,80 @@
 </head>
 <body>
 
+<?php
+ 
+$name_pattern="/^([a-zA-Z]){2,30}$/";
+$email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
+$mobileno_pattern="/^\d{8,}$/";
+$address_pattern="/^[a-zA-Z0-9\s]{1,50}$/";
+$name_error =$email_error = $number_error= $address_error = "";
+
+$name=$email=$number=$address="";
+$namevalid=$emailvalid=$numbervalid=$addressvalid=false;
+
+function input_data($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    if(empty($_POST["name"])){
+        $name_error = "border-bottom: 1px solid red;";
+    } else {
+        $name=input_data($_POST["name"]);
+        if(!preg_match($name_pattern,$name)){
+            $name_error = "border-bottom: 1px solid red;";
+        }else{
+            $namevalid=true;
+        }
+    }
+
+    if(empty($_POST["address"])){
+        $address_error = "border-bottom: 1px solid red;";
+    } else {
+        $address=input_data($_POST["address"]);
+        if(!preg_match($address_pattern,$address)){
+            $address_error = "border-bottom: 1px solid red;";
+        }else{
+            $addressvalid=true;
+        }
+    }
+
+    if(empty($_POST["email"])){
+        $email_error = "border-bottom: 1px solid red;";
+    } else {
+        $email=input_data($_POST["email"]);
+        if(!preg_match($email_pattern,$email)){
+            $email_error = "border-bottom: 1px solid red;";
+        }else{
+            $emailvalid=true;
+        }
+    }
+
+    if (empty($_POST["number"])) {
+        $number_error = "border-bottom: 1px solid red;";
+    } else {
+        $number = input_data($_POST["number"]);
+        if (!preg_match($mobileno_pattern, $number)) {
+            $number_error = "border-bottom: 1px solid red;";
+        }else{
+            $numbervalid=true;
+        }
+    }
+
+
+    if ($namevalid && $addressvalid && $emailvalid && $numbervalid ) {
+        $login_page = "login.php";
+        header("Location: $login_page");
+        exit();
+    }
+}
+
+?>
+
     <header class="header">
         <nav class="nav row" id="nav">
             <h1 class="header-title">LaTulipe</h1>
@@ -41,22 +115,22 @@
                 <li class="nav-item"><a href="delivery.html" class="nav-link">Delivery</a></li>
                 <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
                 <li class="nav-item"><a href="register.php" class="nav-link">Register</a></li>
-                <li class="nav-item"><a href="booknow.html" class="nav-link btn">Book now</a></li>
+                <li class="nav-item"><a href="booknow.php" class="nav-link btn">Book now</a></li>
             </ul>
         </nav>
 
 
         <div class="headerContent">
             <aside  class="contact-form">
-                <form action="">
-                    <input type="text" name="name" id="name" placeholder="Name">
-                    <input type="email" name="email" id="email" placeholder="Email">
-                    <input type="tel" name="phone" id="phone" placeholder="Phone">
-                    <input type="text" name="address" id="address" placeholder="Address">
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <input type="text" name="name" id="name" placeholder="Name" style="<?php echo $name_error; ?>">
+                    <input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error; ?>">
+                    <input type="tel" name="number" id="phone" placeholder="Phone" style="<?php echo $number_error; ?>">
+                    <input type="text" name="address" id="address" placeholder="Address" style="<?php echo $address_error; ?>">
                     <input type="text" name="message" id="message" placeholder="Message">
+                    <button id="sign" class="btn">Order Now</button>
                     
                 </form>
-                <button id="sign" class="btn">Order Now</button>
             </aside>
         </div>
 
@@ -93,7 +167,6 @@
     
         </footer>
         <script src="javascript/index.js"></script>
-        <script src="javascript/validimet.js"></script>
     
 
 </body>

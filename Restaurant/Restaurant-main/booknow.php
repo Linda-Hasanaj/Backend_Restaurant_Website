@@ -22,6 +22,58 @@
     </style>
 </head>
 <body>
+    <?php
+        
+        date_default_timezone_set("America/New_York");
+        $currentDate=date("Y-m-d");
+        $datevalid=false;
+        $pvalid=false;
+        $timevalid=false;
+        $error1= "";
+        $error2= "";
+        $error3= "";
+
+        function input_data($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+        
+
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $userdate=input_data($_POST['date']);
+        $person=input_data($_POST['people']);
+        $time=input_data($_POST['time']);
+        if($userdate>$currentDate && !empty($userdate)){
+        $datevalid=true;}else{
+            $error1 = "border: 1px solid red;";
+        }
+    if(!empty($person)){
+        $pvalid=true;
+    }else{
+        $error2 = "border: 1px solid red;";
+    }
+
+    if(!empty($time)){
+        $timevalid=true;
+    }else{
+        $error3 = "border: 1px solid red;";
+
+    }
+    
+    if ($datevalid && $pvalid && $timevalid) {
+        // Vendosni emrin e faqes së loginit në këtë variabël
+        $go_page = "checkout.php";
+        // Kalimi në faqen e loginit
+        header("Location: $go_page");
+        exit();
+    }
+
+}
+    
+    ?>
 
     <header class="header">
         <nav class="nav row" id="nav">
@@ -46,8 +98,10 @@
         <div class="headerContent">
             <h1>BOOK NOW</h1>
             <div class="inputs">
-                <input type="date" id="date">
-                <select name="time" id="time">
+                <form  method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <input type="date" id="date" name="date" style="<?php echo $error1; ?>">
+                <select name="time" id="time" name="time" style="<?php echo $error3; ?>">
+                    <option value="">Time</option>
                     <option value="10-00">10:00</option>
                     <option value="11-00">11:00</option>
                     <option value="12-00">12:00</option>
@@ -58,7 +112,8 @@
                     <option value="17-00">17:00</option>
                     <option value="18-00">18:00</option>
                 </select>
-                <select name="people" id="people">
+                <select name="people" id="people" style="<?php echo $error3; ?>">
+                    <option value="">People</option>
                     <option value="1">1 Person</option>
                     <option value="2">2 People</option>
                     <option value="2">3 People</option>
@@ -68,6 +123,7 @@
                     <option value="2">7 People</option>
                 </select>
                 <button class="btn btn-2">Book Now</button>
+                </form>
             </div>
         </div>
 

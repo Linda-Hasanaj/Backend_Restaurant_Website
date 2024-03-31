@@ -62,7 +62,7 @@
     document.getElementById("order-now").addEventListener("click", function(){
        
         if( cart.length > 0 ){
-            window.location.href = "checkout.html";
+            window.location.href = "checkout.php";
         } else {
             
         }

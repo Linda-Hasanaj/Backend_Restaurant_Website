@@ -24,6 +24,9 @@
 <body>
 
 <?php
+
+session_start();
+
 $name_pattern="/^([a-zA-Z]){2,30}$/";
 $surname_pattern="/^([a-zA-Z]){2,30}$/";
 $email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
@@ -75,6 +78,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $email_error = "border-bottom: 1px solid red;";
         }else{
             $emailvalid=true;
+            $_SESSION['email']=$email;
+
         }
     }
 
@@ -111,6 +116,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $passErr="Password should be the same";
         }else{
                 $pass2valid=true;
+            $_SESSION['password2']=$password2;
+
         }
     }
 
@@ -139,7 +146,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <li class="nav-item"><a href="delivery.html" class="nav-link">Delivery</a></li>
                 <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
                 <li class="nav-item"><a href="register.php" class="nav-link">Register</a></li>
-                <li class="nav-item"><a href="booknow.html" class="nav-link btn">Book now</a></li>
+                <li class="nav-item"><a href="booknow.php" class="nav-link btn">Book now</a></li>
             </ul>
         </nav>
 
