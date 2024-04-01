@@ -45,7 +45,6 @@
 <body>
 
 <?php
-session_start();
 
 $name_pattern="/^([a-zA-Z]){2,30}$/";
 $email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
@@ -55,6 +54,16 @@ $name_error =$email_error = $number_error= $address_error = "";
 
 $name=$email=$number=$address="";
 $namevalid=$emailvalid=$numbervalid=$addressvalid=false;
+
+function capitalizeFirstLetter($string) {
+    return preg_replace_callback(
+        '/\b\w/i', 
+        function($matches) {
+            return strtoupper($matches[0]); // Bën shkronjën e parë të madhe
+        },
+        $string
+    );
+}
 
 function input_data($data) {
     $data = trim($data);
@@ -68,12 +77,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($_POST["namee"])){
         $name_error = "border-bottom: 1px solid red;";
     } else {
-        $name=input_data($_POST["namee"]);
+        $name = capitalizeFirstLetter(input_data($_POST["namee"]));
         if(!preg_match($name_pattern,$name)){
             $name_error = "border-bottom: 1px solid red;";
         }else{
             $namevalid=true;
-            $_SESSION['namee'] = input_data($_POST["namee"]);
         }
     }
 
@@ -111,17 +119,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 }
 
-function capitalizeFirstLetter($string) {
-    return preg_replace_callback(
-        '/\b\w/i', 
-        function($matches) {
-            return strtoupper($matches[0]); // Bën shkronjën e parë të madhe
-        },
-        $string
-    );
-}
-
-$namee=capitalizeFirstLetter($_SESSION['namee']);
 
 
 ?>
@@ -160,7 +157,7 @@ $namee=capitalizeFirstLetter($_SESSION['namee']);
             </aside>
         </div>
         <div id="successMessage" class="hidden">
-            <p> <?php if(isset($_SESSION['namee'])){echo "Dear ".$namee.",";}?> Thank you for your order!</p>
+            <p> <?php echo "Dear ".$name.",";?> Thank you for your order!</p>
 
         </div>
 
