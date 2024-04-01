@@ -45,7 +45,8 @@
 <body>
 
 <?php
- 
+session_start();
+
 $name_pattern="/^([a-zA-Z]){2,30}$/";
 $email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
 $mobileno_pattern="/^\d{8,}$/";
@@ -64,14 +65,15 @@ function input_data($data) {
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    if(empty($_POST["name"])){
+    if(empty($_POST["namee"])){
         $name_error = "border-bottom: 1px solid red;";
     } else {
-        $name=input_data($_POST["name"]);
+        $name=input_data($_POST["namee"]);
         if(!preg_match($name_pattern,$name)){
             $name_error = "border-bottom: 1px solid red;";
         }else{
             $namevalid=true;
+            $_SESSION['namee'] = input_data($_POST["namee"]);
         }
     }
 
@@ -107,14 +109,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $numbervalid=true;
         }
     }
-
-
-    /*if ($namevalid && $addressvalid && $emailvalid && $numbervalid ) {
-        $login_page = "login.php";
-        header("Location: $login_page");
-        exit();
-    }*/
 }
+
+function capitalizeFirstLetter($string) {
+    return preg_replace_callback(
+        '/\b\w/i', 
+        function($matches) {
+            return strtoupper($matches[0]); // Bën shkronjën e parë të madhe
+        },
+        $string
+    );
+}
+
+$namee=capitalizeFirstLetter($_SESSION['namee']);
+
 
 ?>
 
@@ -141,7 +149,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <div class="headerContent">
             <aside  class="contact-form">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <input type="text" name="name" id="name" placeholder="Name" style="<?php echo $name_error; ?>">
+                    <input type="text" name="namee" id="name" placeholder="Name" style="<?php echo $name_error; ?>">
                     <input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error; ?>">
                     <input type="tel" name="number" id="phone" placeholder="Phone" style="<?php echo $number_error; ?>">
                     <input type="text" name="address" id="address" placeholder="Address" style="<?php echo $address_error; ?>">
@@ -152,7 +160,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </aside>
         </div>
         <div id="successMessage" class="hidden">
-            <p>Thank you for your order!</p>
+            <p> <?php if(isset($_SESSION['namee'])){echo "Dear ".$namee.",";}?> Thank you for your order!</p>
 
         </div>
 

@@ -39,6 +39,8 @@
 </head>
 <body>
     <?php
+
+        session_start();
         
         date_default_timezone_set("America/New_York");
         $currentDate=date("Y-m-d");
@@ -78,10 +80,16 @@
         $error3 = "border: 1px solid red;";
 
     }
-    
-    
-
 }
+
+    if($datevalid && $pvalid && $timevalid){
+        if(isset($_SESSION['reservation_count'])){
+           $_SESSION['reservation_count']++;
+        }else{
+        $_SESSION['reservation_count'] = 1;
+        }
+    }
+
     
     ?>
 
@@ -138,7 +146,7 @@
         </div>
 
         <div id="successMessage" class="hidden">
-        <p style="font-size: 50px;">Booking successful!</p>
+        <p style="font-size: 50px;">Booking successful!  <br> <span style="font-size: 20px;">Booking times: <?php echo  $_SESSION['reservation_count']; ?></span></p>
     </div>
 
     </header>

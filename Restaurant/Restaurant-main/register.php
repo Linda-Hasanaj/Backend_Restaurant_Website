@@ -27,6 +27,18 @@
 
 session_start();
 
+if($_SESSION['counter']){
+
+    $_SESSION['counter']++;
+ 
+ }else{
+ 
+    $_SESSION['counter'] = 1;
+ 
+ }
+$pageVisitTime= $_SESSION['counter'];
+
+
 $name_pattern="/^([a-zA-Z]){2,30}$/";
 $surname_pattern="/^([a-zA-Z]){2,30}$/";
 $email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
