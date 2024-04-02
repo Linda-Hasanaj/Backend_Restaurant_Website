@@ -16,19 +16,16 @@
     <title>Contact</title>
 </head>
 <body>
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
->>>>>>> Stashed changes
 <?php
+
 $name_pattern="/^[a-zA-Z]{2,30}\s+[a-zA-Z]{2,30}$/";
 $email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
-$phone_pattern="/^\d{8,}$/";
+$mobileno_pattern="/^\d{8,}$/";
 $message_pattern="/^[a-zA-Z0-9\s]{1,100}$/";
 $name_error =$email_error = $phone_error= $message_error = "";
 
 $name=$email=$phone=$message="";
-$namevalid=$emailvalid=$phonevalid=$messagevalid=false;
+$namevalid=$emailvalid=$numbervalid=$messagevalid=false;
 
 function capitalizeFirstLetter($string) {
     return preg_replace_callback(
@@ -47,65 +44,55 @@ function input_data($data) {
     return $data;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    if (empty($_POST["name"])) {
+    if(empty($_POST["name"])){
         $name_error = "border-bottom: 1px solid red;";
     } else {
         $name = capitalizeFirstLetter(input_data($_POST["name"]));
-        if (!preg_match($name_pattern,$name)) {
+        if(!preg_match($name_pattern,$name)){
             $name_error = "border-bottom: 1px solid red;";
-        } else {
+        }else{
             $namevalid=true;
         }
     }
 
-    if (empty($_POST["message"])) {
+    if(empty($_POST["message"])){
         $message_error = "border-bottom: 1px solid red;";
     } else {
-        $message = input_data($_POST["message"]);
-<<<<<<< Updated upstream
+        $message=input_data($_POST["message"]);
         
             $messagevalid=true;
         }
-=======
-            $messagevalid=true;
-        
->>>>>>> Stashed changes
-    }
+    
 
-    if (empty($_POST["email"])) {
-        $email_error = "border-bottom: 1px solid red;";
-    } else {
-        $email = input_data($_POST["email"]);
-        if (!preg_match($email_pattern,$email)) {
+        if(empty($_POST["email"])){
             $email_error = "border-bottom: 1px solid red;";
         } else {
-            $emailvalid=true;
+            $email=input_data($_POST["email"]);
+            if(!preg_match($email_pattern,$email)){
+                $email_error = "border-bottom: 1px solid red;";
+            }else{
+                $emailvalid=true;
+            }
         }
-    }
+    
 
     if (empty($_POST["phone"])) {
         $phone_error = "border-bottom: 1px solid red;";
     } else {
         $phone = input_data($_POST["phone"]);
-        if (!preg_match($phone_pattern, $phone)) {
+        if (!preg_match($mobileno_pattern, $phone)) {
             $phone_error = "border-bottom: 1px solid red;";
-        } else {
-            $phonevalid=true;
+        }else{
+            $numbervalid=true;
         }
     }
-
-   
-<<<<<<< Updated upstream
-
-?>
-=======
 }
+
+
+
 ?>
-=======
->>>>>>> e7fc0e9a6a3387d4988b2c626ee5e19c9158558e
->>>>>>> Stashed changes
 
     <header class="header">
         <nav class="nav row" id="nav">
@@ -116,21 +103,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </a>
             <ul class="nav-list row" id="nav-list">
                 <li class="nav-item"><a href="javascript:void(0);" onclick="removeMenu()" class="nav-link"><i class="fa-solid fa-xmark"></i></a></li>
-<<<<<<< Updated upstream
                 <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="menu.php" class="nav-link">Menu</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-=======
-<<<<<<< HEAD
-                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="menu.php" class="nav-link">Menu</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-=======
-                <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="menu.php" class="nav-link">Menu</a></li>
-                <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
->>>>>>> e7fc0e9a6a3387d4988b2c626ee5e19c9158558e
->>>>>>> Stashed changes
                 <li class="nav-item"><a href="delivery.php" class="nav-link">Delivery</a></li>
                 <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
                 <li class="nav-item"><a href="register.php" class="nav-link">Register</a></li>
@@ -186,39 +161,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <aside class="contact-form">
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
->>>>>>> Stashed changes
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                     <input type="text" name="name" id="name" placeholder="Name" style="<?php echo $name_error; ?>">
                     <input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error;?>">
                     <input type="tel" name="phone" id="phone" placeholder="Phone" style="<?php echo $phone_error; ?>">
                     <input type="text" name="message" id="message" placeholder="Message" style="<?php echo $message_error; ?>">
-
-<<<<<<< Updated upstream
-=======
-                    
-                    
->>>>>>> Stashed changes
-
                     <button id="sign" class="btn">Send Message</button>
                     
                 </form>
                 
-<<<<<<< Updated upstream
-=======
-=======
-                <form action="">
-                    <input type="text" name="name" id="name" placeholder="Name">
-                    <input type="email" name="email" id="email" placeholder="Email">
-                    <input type="tel" name="phone" id="phone" placeholder="Phone">
-                    <input type="text" name="message" id="message" placeholder="Message">
-                    
-                </form>
-                <button id="sign" class="btn">Send Message</button>
->>>>>>> e7fc0e9a6a3387d4988b2c626ee5e19c9158558e
->>>>>>> Stashed changes
             </aside>
         </section>
 
@@ -260,24 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
         </footer>
         <script src="javascript/index.js"></script>
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
->>>>>>> Stashed changes
-
-    
-
-
-</body>
-<<<<<<< Updated upstream
-</html>
-=======
-</html>
-=======
-        <script src="javascript/validimet.js"></script>
     
 
 </body>
 </html>
->>>>>>> e7fc0e9a6a3387d4988b2c626ee5e19c9158558e
->>>>>>> Stashed changes
