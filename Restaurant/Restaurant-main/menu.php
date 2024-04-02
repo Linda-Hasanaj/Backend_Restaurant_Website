@@ -147,8 +147,8 @@
             </div>
             <div class="starters-product">
                 <?php foreach ($menu as $item) : ?>
-                    <div class="product">
-                        <div class="product-img">
+                    <div class="prouduct">
+                        <div class="prouct-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -172,8 +172,8 @@
             </div>
             <div class="starters-product">
                 <?php foreach ($main_courses as $item) : ?>
-                    <div class="product">
-                        <div class="product-img">
+                    <div class="prouduct">
+                        <div class="prouct-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -196,8 +196,8 @@
             </div>
             <div class="starters-product">
                 <?php foreach ($desserts as $item) : ?>
-                    <div class="product">
-                        <div class="product-img">
+                    <div class="prouduct">
+                        <div class="prouct-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -220,8 +220,8 @@
             </div>
             <div class="starters-product">
                 <?php foreach ($wine_selection as $item) : ?>
-                    <div class="product">
-                        <div class="product-img">
+                    <div class="prouduct">
+                        <div class="prouct-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
