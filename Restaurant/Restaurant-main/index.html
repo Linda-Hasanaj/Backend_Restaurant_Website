@@ -13,9 +13,74 @@
     <link rel="stylesheet" href="css/home.css">
     <script src="https://kit.fontawesome.com/1506ca5daa.js" crossorigin="anonymous"></script>
 </head>
-
-
 <body>
+    <?php
+if(isset($_COOKIE["fav_food"])){
+    $fav_food = $_COOKIE["fav_food"];
+    // Define the photo URL based on the user's favorite food
+    $photo_url = '';
+
+    // Assuming you have predefined photo URLs for each favorite food
+    switch ($fav_food) {
+        case 'pizza':
+            $photo_url = 'pizza.jpg';
+            // Set the width and height attributes for the pizza image
+            $width = 320; // Adjust the width as needed
+            $height = 170; // Adjust the height as needed
+            break;
+        case 'burger':
+            $photo_url = 'burger.jpg';
+            // Set the width and height attributes for the burger image
+            $width = 320; // Adjust the width as needed
+            $height = 160; // Adjust the height as needed
+            break;
+        // Add more cases for other favorite foods as needed
+        default:
+            $photo_url = 'default.jpg'; // Default photo if the favorite food is not recognized
+            $width = 100; // Default width
+            $height = 100; // Default height
+    }
+    // Output the container <div> with the image inside
+    echo "<div id='favorite-food-container' style='position: fixed; top: 85px; right: 20px; text-align: center;'>"; // Adjust top and right values as needed
+    // Output the HTML img tag with the photo URL and specified width and height
+    echo "<img src='$photo_url' alt='Favorite Food Photo' width='$width' height='$height'>";
+    // Add some text and a button to hide the image
+    echo "<p>We have some special offers for $fav_food's</p>";
+    echo "<button id='hide-button' onclick='hideFavoriteFood()'>Close the add</button>";
+    echo "</div>";
+} else {
+    // Output default message if the favorite food cookie is not set
+    echo "I don't know your favorite food!!";
+}
+?>
+
+
+<style>
+#hide-button {
+    padding: 10px 20px; /* Adjust padding as needed */
+    background-color: #007bff; /* Change the background color */
+    color: #fff; /* Change the text color */
+    border: none;
+    border-radius: 5px; /* Adjust border radius as needed */
+    cursor: pointer;
+    margin-top: 10px; /* Add margin to separate from the text */
+}
+
+#hide-button:hover {
+    background-color: #0056b3; /* Change the background color on hover */
+}
+</style>
+
+
+
+<script>
+function hideFavoriteFood() {
+    var element = document.getElementById("favorite-food-container");
+    element.style.display = "none";
+}
+</script>
+
+    
     <header class="header">
         <nav class="nav row" id="nav">
             <h1 class="header-title">LaTulipe</h1>
