@@ -31,14 +31,12 @@
 
     class Customer
     {
-
         private $name;
         private $surname;
         private $email;
         private $number;
         private $password1;
         private $password2;
-
 
         public function __construct($name, $surname, $email, $number, $password1, $password2)
         {
@@ -50,82 +48,77 @@
             $this->password2 = $password2;
         }
 
-
         public function getName()
         {
             return $this->name;
         }
+
         public function getSurname()
         {
             return $this->surname;
         }
+
         public function getEmail()
         {
             return $this->email;
         }
+
         public function getNumber()
         {
             return $this->number;
         }
+
         public function getPassword1()
         {
             return $this->password1;
         }
+
         public function getPassword2()
         {
             return $this->password2;
         }
+    }
 
-        public function validate()
-        {
+    function validateCustomer($customer)
+    {
+        $name_pattern = "/^([a-zA-Z]){2,30}$/";
+        $surname_pattern = "/^([a-zA-Z]){2,30}$/";
+        $email_pattern = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
+        $mobileno_pattern = "/^\d{8,}$/";
+        $pass_pattern = "/^.{8,}$/";
 
-            $name_pattern = "/^([a-zA-Z]){2,30}$/";
-            $surname_pattern = "/^([a-zA-Z]){2,30}$/";
-            $email_pattern = "/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
-            $mobileno_pattern = "/^\d{8,}$/";
-            $pass_pattern = "/^.{8,}$/";
+        $errors = [];
 
-
-            $errors = [];
-
-
-            if (empty($this->name) || !preg_match($name_pattern, $this->name)) {
-                $errors[] = "Invalid name.";
-            }
-
-
-            if (empty($this->surname) || !preg_match($surname_pattern, $this->surname)) {
-                $errors[] = "Invalid surname.";
-            }
-
-
-            if (empty($this->email) || !preg_match($email_pattern, $this->email)) {
-                $errors[] = "Invalid email.";
-            }
-
-
-            if (empty($this->number) || !preg_match($mobileno_pattern, $this->number)) {
-                $errors[] = "Invalid number.";
-            }
-
-
-            if (empty($this->password1) || !preg_match($pass_pattern, $this->password1)) {
-                $errors[] = "Invalid password.";
-            }
-
-
-            if ($this->password1 !== $this->password2) {
-                $errors[] = "Passwords do not match.";
-            }
-
-            return !empty($errors) ? $errors : true;
+        if (empty($customer->getName()) || !preg_match($name_pattern, $customer->getName())) {
+            $errors[] = "Invalid name.";
         }
+
+        if (empty($customer->getSurname()) || !preg_match($surname_pattern, $customer->getSurname())) {
+            $errors[] = "Invalid surname.";
+        }
+
+        if (empty($customer->getEmail()) || !preg_match($email_pattern, $customer->getEmail())) {
+            $errors[] = "Invalid email.";
+        }
+
+        if (empty($customer->getNumber()) || !preg_match($mobileno_pattern, $customer->getNumber())) {
+            $errors[] = "Invalid number.";
+        }
+
+        if (empty($customer->getPassword1()) || !preg_match($pass_pattern, $customer->getPassword1())) {
+            $errors[] = "Invalid password.";
+        }
+
+        if ($customer->getPassword1() !== $customer->getPassword2()) {
+            $errors[] = "Passwords do not match.";
+        }
+
+        return !empty($errors) ? $errors : true;
     }
 
     session_start();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
         $name = input_data($_POST["name"]);
         $surname = input_data($_POST["surname"]);
         $email = input_data($_POST["email"]);
@@ -133,23 +126,18 @@
         $password1 = input_data($_POST["password1"]);
         $password2 = input_data($_POST["password2"]);
 
-
         $customer = new Customer($name, $surname, $email, $number, $password1, $password2);
-
-
-        $validationResult = $customer->validate();
+        $validationResult = validateCustomer($customer);
 
         if ($validationResult === true) {
             header("Location: login.php");
             exit();
         } else {
-
             foreach ($validationResult as $error) {
                 echo "<p class='error'>$error</p>";
             }
         }
     }
-
 
     function input_data($data)
     {
