@@ -1,3 +1,8 @@
+<?php
+setcookie("fav_food","pizza",time() + 86400 *2,"/");
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
