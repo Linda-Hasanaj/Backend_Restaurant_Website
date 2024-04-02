@@ -22,7 +22,7 @@
             <h1 class="header-title">LaTulipe</h1>
 
             <a href="javascript:void(0);" onclick="displayMenu()" class="menu-mobile" id="menu-mobile">
-                <i class="fa-solid fa-bars" ></i>
+                <i class="fa-solid fa-bars"></i>
             </a>
             <ul class="nav-list row" id="nav-list">
                 <li class="nav-item"><a href="javascript:void(0);" onclick="removeMenu()" class="nav-link"><i class="fa-solid fa-xmark"></i></a></li>
@@ -42,177 +42,205 @@
         </div>
     </header>
     <?php
-    
-    $menu = array(
-        array("name" => "TOMATO BRUSCHETTA", "price" => 5, "description" => "Tomates, Olive Oil, Cheese", "image" => "images/menu/Starters1.jpg"),
-        array("name" => "CHEESE PLATE", "price" => 11, "description" => "Selected Cheeses, Grapes, Nuts, Bread", "image" => "images/menu/starters2.jpg"),
-        array("name" => "EGGS BENEDICT", "price" => 9, "description" => "2 Eggs, Spinach, Potatoes, Salad", "image" => "images/menu/starters3.jpg"),
-        array("name" => "GUACAMOLE WITH NACHOS", "price" => 7, "description" => "Avocado, Tomatoes, Nachos", "image" => "images/menu/starters4.jpg"),
-        array("name" => "BAKED POTATO SKINS", "price" => 8, "description" => "Potatoes, Oil, Garlic", "image" => "images/menu/starters5.jpg"),
-        array("name" => "JAMBON IBERICO", "price" => 10, "description" => "Smoked Tomato Aioli, Idizabal Cheese, Olives", "image" => "images/menu/starters6.jpg")
-    );
 
+    class MenuItem
+    {
+        private $name;
+        private $price;
+        private $description;
+        private $image;
+
+        public function __construct($name, $price, $description, $image)
+        {
+            $this->name = $name;
+            $this->price = $price;
+            $this->description = $description;
+            $this->image = $image;
+        }
+
+        public function getName()
+        {
+            return $this->name;
+        }
+
+        public function getPrice()
+        {
+            return $this->price;
+        }
+
+        public function getDescription()
+        {
+            return $this->description;
+        }
+
+        public function getImage()
+        {
+            return $this->image;
+        }
+    }
+
+    $menu = array(
+        new MenuItem("TOMATO BRUSCHETTA", 5, "Tomatoes, Olive Oil, Cheese", "images/menu/Starters1.jpg"),
+        new MenuItem("CHEESE PLATE", 11, "Selected Cheeses, Grapes, Nuts, Bread", "images/menu/starters2.jpg"),
+        new MenuItem("EGGS BENEDICT", 9, "2 Eggs, Spinach, Potatoes, Salad", "images/menu/starters3.jpg"),
+        new MenuItem("GUACAMOLE WITH NACHOS", 7, "Avocado, Tomatoes, Nachos", "images/menu/starters4.jpg"),
+        new MenuItem("BAKED POTATO SKINS", 8, "Potatoes, Oil, Garlic", "images/menu/starters5.jpg"),
+        new MenuItem("JAMBON IBERICO", 10, "Smoked Tomato Aioli, Idizabal Cheese, Olives", "images/menu/starters6.jpg")
+    );
 
     $newMenu = array();
     foreach ($menu as $item) {
-        $newMenu[$item['price']] = $item;
+        $newMenu[$item->getPrice()] = $item;
     }
-    
+
     ksort($newMenu);
-     $menu = array_values($newMenu);
+    $menu = array_values($newMenu);
 
-     $main_courses = array(
-    array("name" => "BBQ RIBS", "price" => 25, "image" => "images/menu/main1.jpg", "description" => "Ribs, French Fries & Corn Bread Muffin"),
-    array("name" => "CLASSIC PASTA", "price" => 20, "image" => "images/menu/main2.jpg", "description" => "Parmesan & White Wine Cream Sauce"),
-    array("name" => "DUCK BREAST", "price" => 30, "image" => "images/menu/main3.jpg", "description" => "Wild Broccoli, Carrot Puree, Red Wine Jus"),
-    array("name" => "ECO SALMON", "price" => 27, "image" => "images/menu/main4.jpg", "description" => "Norwegian Salmon, Wild Rice, Roasted Butternut Squash"),
-    array("name" => "SRIRACHA BEEF SKEWERS", "price" => 15, "image" => "images/menu/main5.jpg", "description" => "Beef, Garlic, Sesame Oil, Winegar")
-);
+    $main_courses = array(
+        new MenuItem("BBQ RIBS", 25, "Ribs, French Fries & Corn Bread Muffin", "images/menu/main1.jpg"),
+        new MenuItem("CLASSIC PASTA", 20, "Parmesan & White Wine Cream Sauce", "images/menu/main2.jpg"),
+        new MenuItem("DUCK BREAST", 30, "Wild Broccoli, Carrot Puree, Red Wine Jus", "images/menu/main3.jpg"),
+        new MenuItem("ECO SALMON", 27, "Norwegian Salmon, Wild Rice, Roasted Butternut Squash", "images/menu/main4.jpg"),
+        new MenuItem("SRIRACHA BEEF SKEWERS", 15, "Beef, Garlic, Sesame Oil, Vinegar", "images/menu/main5.jpg")
+    );
 
- $newMain=array();
- foreach( $main_courses as$item){
-    $newMain[$item['price']]=$item;
- }
+    $newMain = array();
+    foreach ($main_courses as $item) {
+        $newMain[$item->getPrice()] = $item;
+    }
 
-ksort($newMain);
-$main_courses=array_values($newMain);
-
-
-
-$desserts = array(
-    array("name" => "BIG CHOCOLATE CAKE","price" => 11,"image" => "images/menu/dessert1.jpg","description" => "With Fresh Cream & Hazelnut Ice Cream" ),
-    array("name" => "MACARONS","price" => 12,"image" => "images/menu/dessert2.jpg", "description" => "4 macarons with different flavors"),
-    array( "name" => "ASSORTED ICE CREAM","price" => 10,"image" => "images/menu/dessert3.jpg","description" => "Berries, Chocolate & Vanilla"),
-    array( "name" => "TIRAMISU","price" => 9,"image" => "images/menu/dessert4.jpg","description" => "Fabulous Italian Dessert"),
-    array("name" => "SUMMER BERRY TART","price" => 12,"image" => "images/menu/dessert5.jpg","description" => "Raspberries, blackberries, blueberries")
-);
-
-$newDess=array();
-foreach( $desserts as$item){
-   $newDess[$item['price']]=$item;
-}
-
-ksort($newDess);
-$desserts=array_values($newMain);
+    ksort($newMain);
+    $main_courses = array_values($newMain);
 
 
+    $desserts = array(
+        new MenuItem("BIG CHOCOLATE CAKE", 11, "With Fresh Cream & Hazelnut Ice Cream", "images/menu/dessert1.jpg"),
+        new MenuItem("MACARONS", 12, "4 macarons with different flavors", "images/menu/dessert2.jpg"),
+        new MenuItem("ASSORTED ICE CREAM", 10, "Berries, Chocolate & Vanilla", "images/menu/dessert3.jpg"),
+        new MenuItem("TIRAMISU", 9, "Fabulous Italian Dessert", "images/menu/dessert4.jpg"),
+        new MenuItem("SUMMER BERRY TART", 12, "Raspberries, blackberries, blueberries", "images/menu/dessert5.jpg")
+    );
 
-$wine_selection = array(
-    array("SARAFIN", 17, "images/menu/wine1.jpg", "Cabernet Sauvignon 2018"),
-    array("ZOE", 13, "images/menu/wine2.jpg", "Soukuras, Aghiorghitiko 2020"),
-    array("POUR MA GUEULE", 19, "images/menu/wine3.jpg", "Pinot Noir 2019"),
-    array("DEANGELIS", 20, "images/menu/wine4.jpg", "Montepulciano D'Abruzzo 2019")
-);
+    $newDess = array();
+    foreach ($desserts as $item) {
+        $newDess[$item->getPrice()] = $item;
+    }
+
+    ksort($newDess);
+    $desserts = array_values($newDess);
 
 
-rsort($wine_selection);
-?>
+    $wine_selection = array(
+        new MenuItem("SARAFIN", 17, "Cabernet Sauvignon 2018", "images/menu/wine1.jpg"),
+        new MenuItem("ZOE", 13, "Soukuras, Aghiorghitiko 2020", "images/menu/wine2.jpg"),
+        new MenuItem("POUR MA GUEULE", 19, "Pinot Noir 2019", "images/menu/wine3.jpg"),
+        new MenuItem("DEANGELIS", 20, "Montepulciano D'Abruzzo 2019", "images/menu/wine4.jpg")
+    );
 
-<section class="starters">
-    <div class="container">
-        <div class="starters-title">
-            <h1>STARTERS</h1>
+    rsort($wine_selection);
+    ?>
+
+    <section class="starters">
+        <div class="container">
+            <div class="starters-title">
+                <h1>STARTERS</h1>
+            </div>
+            <div class="starters-product">
+                <?php foreach ($menu as $item) : ?>
+                    <div class="product">
+                        <div class="product-img">
+                            <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
+                        </div>
+                        <div class="product-title">
+                            <h2><?php echo $item->getName(); ?></h2>
+                            <p><?php echo $item->getDescription(); ?></p>
+                        </div>
+                        <div class="product-price">
+                            <p>$<?php echo $item->getPrice(); ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
-        <div class="starters-product">
-            <?php foreach ($menu as $item) : ?>
-                <div class="prouduct">
-                    <div class="prouct-img">
-                        <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                    </div>
-                    <div class="product-title">
-                        <h2><?php echo $item['name']; ?></h2>
-                        <p><?php echo $item['description']; ?></p>
-                      
-                    </div>
-                    <div class="product-price">
-                        <p>$<?php echo $item['price']; ?></p>
-                        
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-<section class="main">
-    <div class="container">
-        <div class="starters-title">
-            <h1>MAIN COURSES</h1>
-        </div>
-        <div class="starters-product">
-            <?php foreach ($main_courses as $item) : ?>
-                <div class="prouduct">
-                    <div class="prouct-img">
-                        <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                    </div>
-                    <div class="product-title">
-                        <h2><?php echo $item['name']; ?></h2>
-                        <p><?php echo $item['description']; ?></p>
-                    </div>
-                    <div class="product-price">
-                        <p>$<?php echo $item['price']; ?></p>
-                       
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-<section class="main">
-    <div class="container">
-        <div class="starters-title">
-            <h1>DESSERTS</h1>
-        </div>
-        <div class="starters-product">
-            <?php foreach ($desserts as $item) : ?>
-                <div class="prouduct">
-                    <div class="prouct-img">
-                        <img src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
-                    </div>
-                    <div class="product-title">
-                        <h2><?php echo $item['name']; ?></h2>
-                        <p><?php echo $item['description']; ?></p> 
-                        
-                    </div>
-                    <div class="product-price">
-                        <p>$<?php echo $item['price']; ?></p>
-                        
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-<section class="main">
-    <div class="container">
-        <div class="starters-title">
-            <h1>WINE SELECTION</h1>
-        </div>
-        <div class="starters-product">
-            <?php foreach ($wine_selection as $item) : ?>
-                <div class="prouduct">
-                    <div class="prouct-img">
-                        <img src="<?php echo $item[2]; ?>" alt="<?php echo $item[0]; ?>">
-                    </div>
-                    <div class="product-title">
-                        <h2><?php echo $item[0]; ?></h2>
-                        <p><?php echo $item[3]; ?></p> 
-                    </div>
-                    <div class="product-price">
-                        <p>$<?php echo $item[1]; ?></p>
-                        
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-  
+    </section>
 
 
-    
+    <section class="main">
+        <div class="container">
+            <div class="starters-title">
+                <h1>MAIN COURSES</h1>
+            </div>
+            <div class="starters-product">
+                <?php foreach ($main_courses as $item) : ?>
+                    <div class="product">
+                        <div class="product-img">
+                            <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
+                        </div>
+                        <div class="product-title">
+                            <h2><?php echo $item->getName(); ?></h2>
+                            <p><?php echo $item->getDescription(); ?></p>
+                        </div>
+                        <div class="product-price">
+                            <p>$<?php echo $item->getPrice(); ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+
+    <section class="main">
+        <div class="container">
+            <div class="starters-title">
+                <h1>DESSERTS</h1>
+            </div>
+            <div class="starters-product">
+                <?php foreach ($desserts as $item) : ?>
+                    <div class="product">
+                        <div class="product-img">
+                            <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
+                        </div>
+                        <div class="product-title">
+                            <h2><?php echo $item->getName(); ?></h2>
+                            <p><?php echo $item->getDescription(); ?></p>
+                        </div>
+                        <div class="product-price">
+                            <p>$<?php echo $item->getPrice(); ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+
+    <section class="main">
+        <div class="container">
+            <div class="starters-title">
+                <h1>WINE SELECTION</h1>
+            </div>
+            <div class="starters-product">
+                <?php foreach ($wine_selection as $item) : ?>
+                    <div class="product">
+                        <div class="product-img">
+                            <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
+                        </div>
+                        <div class="product-title">
+                            <h2><?php echo $item->getName(); ?></h2>
+                            <p><?php echo $item->getDescription(); ?></p>
+                        </div>
+                        <div class="product-price">
+                            <p>$<?php echo $item->getPrice(); ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
 
     <section class="information-section">
         <div class="container2">
