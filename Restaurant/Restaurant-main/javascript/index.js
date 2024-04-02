@@ -12,3 +12,12 @@ function removeMenu(){
     hiddenMenu.classList.remove("fixed-nav");
     hiddenMenu.classList.add("nav-list")
 }
+
+
+    function scrollToSection(sectionClass) {
+        const section = document.querySelector(sectionClass);
+        window.scrollTo({
+            top: section.offsetTop,
+            behavior: 'smooth'
+        });
+    }
