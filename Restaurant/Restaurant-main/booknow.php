@@ -146,7 +146,7 @@
         </div>
 
         <div id="successMessage" class="hidden">
-        <p style="font-size: 50px;">Booking successful!  <br> <span style="font-size: 20px;">Booking times: <?php echo  $_SESSION['reservation_count']; ?></span></p>
+        <p style="font-size: 50px;">Booking successful!  <br> <span style="font-size: 20px; ">Booking times: <?php echo  $_SESSION['reservation_count']; ?></span></p>
     </div>
 
     </header>

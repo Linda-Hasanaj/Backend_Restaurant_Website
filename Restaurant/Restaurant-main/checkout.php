@@ -46,7 +46,7 @@
 
 <?php
 
-$name_pattern="/^[a-zA-Z]{2,30}\s+[a-zA-Z]{2,30}$/";
+$name_pattern = "/^[a-zA-Z]+(?:\s+[a-zA-Z]+)*$/";
 $email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
 $mobileno_pattern="/^\d{8,}$/";
 $address_pattern="/^[a-zA-Z0-9\s]{1,50}$/";
