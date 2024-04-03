@@ -1,7 +1,6 @@
 <?php
-setcookie("fav_food","pizza",time() + 86400 *2,"/");
+setcookie("fav_food","pizza",time() + 86400 *2,"/"); // "/" dmath e kemi perdor the default path
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
