@@ -52,10 +52,7 @@ if(isset($_COOKIE["fav_food"])){
     echo "<p>We have some special offers for $fav_food's</p>";
     echo "<button id='hide-button' onclick='hideFavoriteFood()'>Close the add</button>";
     echo "</div>";
-} else {
-    // Output default message if the favorite food cookie is not set
-    echo "I don't know your favorite food!!";
-}
+} 
 ?>
 
 
