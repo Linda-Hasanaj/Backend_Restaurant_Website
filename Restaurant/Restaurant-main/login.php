@@ -17,65 +17,9 @@
 <body>
 
 <?php
-session_start();
+include ("login_validation.php");
 
-$email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
-$email_error="";
-$password_error="";
-$emailvalid=false;
-$passvalid=false;
-$message="";
-$passwords="";
-$emails="";
-$passwords="";
-
-
-function input_data($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    if(isset($_SESSION['email'])&&isset($_SESSION['password2'])){
-        $emails=$_SESSION['email'];
-        $passwords=$_SESSION['password2'];
-    }
-    
-    if(empty($_POST["email"])){
-        $email_error = "border-bottom: 1px solid red;";
-    } else {
-        $email=input_data($_POST["email"]);
-        if(!preg_match($email_pattern,$email) && $password!==$passwords){
-            $message="Incorrect email or password";
-            $email_error = "border-bottom: 1px solid red;";
-        }else{
-            $emailvalid=true;
-        }
-    }
-    if(empty($_POST["password"])){
-        $password_error = "border-bottom: 1px solid red;";
-    } else {
-        $password=input_data($_POST["password"]);
-        if($password !== $passwords){
-            $password_error = "border-bottom: 1px solid red;";
-            $message="Incorrect email or password";
-        }else{
-            $passvalid=true;
-        }
-    }
-
-    if ($emailvalid && $passvalid) {
-        // Vendosni emrin e faqes së loginit në këtë variabël
-        $index_page = "index.html";
-        // Kalimi në faqen e loginit
-        header("Location: $index_page");
-        exit();
-    }
-
-}
+$login_validator = new Validator();
 
 
 ?>
@@ -106,9 +50,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <p>Sign in with your email address and password</p>
 
                     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                        <input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error; ?>">
-                        <input type="password" name="password" id="password" placeholder="Password" style="<?php echo $email_error; ?>">
-                        <a href="#" >Reset Password       <span style="color: red; text-decoration: none;" >    <?php echo $message; ?></span>  </a>
+                        <input type="email" name="email" id="email" placeholder="Email" style="<?php echo $login_validator->getEmailError(); ?>">
+                        <input type="password" name="password" id="password" placeholder="Password" style="<?php echo $login_validator->getPasswordError(); ?>">
+                        <a href="#" >Reset Password       <span style="color: red; text-decoration: none;" >    <?php echo $login_validator->getMessage(); ?></span>  </a>
                         <input type="submit" id="sign" name="sign" class="btn" value="Log in">
                       <!---  <button id="sign" class="btn">Log In</button>-->
                     </form>

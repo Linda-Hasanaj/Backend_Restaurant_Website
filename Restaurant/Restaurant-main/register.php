@@ -24,112 +24,13 @@
 <body>
 
 <?php
+include ("register_validation.php");
+
 
 session_start();
 
+$register_validator = new RegisterValidator();
 
-$name_pattern="/^([a-zA-Z]){2,30}$/";
-$surname_pattern="/^([a-zA-Z]){2,30}$/";
-$email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
-//$mobileno_pattern="/^\+?\(?383\)?[-.\s]?\d{2}[-.\s]?\d{3}[-.\s]?\d{3}?/";
-$mobileno_pattern="/^\d{8,}$/";
-$pass_pattern="/^.{8,}$/";
-$name_error = $surname_error = $email_error = $number_error = $password1_error = $password2_error = "";
-
-$name=$surname=$email=$number=$password1=$password2="";
-$passErr="";
-$namevalid=$surnamevalid=$emailvalid=$numbervalid=$pass1valid=$pass2valid=false;
-
-function input_data($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-    if(empty($_POST["name"])){
-        $name_error = "border-bottom: 1px solid red;";
-    } else {
-        $name=input_data($_POST["name"]);
-        if(!preg_match($name_pattern,$name)){
-            $name_error = "border-bottom: 1px solid red;";
-        }else{
-            $namevalid=true;
-        }
-    }
-
-    if(empty($_POST["surname"])){
-        $surname_error = "border-bottom: 1px solid red;";
-    } else {
-        $surname=input_data($_POST["surname"]);
-        if(!preg_match($surname_pattern,$surname)){
-            $surname_error = "border-bottom: 1px solid red;";
-        }else{
-            $surnamevalid=true;
-        }
-    }
-
-    if(empty($_POST["email"])){
-        $email_error = "border-bottom: 1px solid red;";
-    } else {
-        $email=input_data($_POST["email"]);
-        if(!preg_match($email_pattern,$email)){
-            $email_error = "border-bottom: 1px solid red;";
-        }else{
-            $emailvalid=true;
-            $_SESSION['email']=$email;
-
-        }
-    }
-
-    if (empty($_POST["number"])) {
-        $number_error = "border-bottom: 1px solid red;";
-    } else {
-        $number = input_data($_POST["number"]);
-        if (!preg_match($mobileno_pattern, $number)) {
-            $number_error = "border-bottom: 1px solid red;";
-        }else{
-            $numbervalid=true;
-        }
-    }
-
-    if(empty($_POST["password1"])){
-        $password1_error = "border-bottom: 1px solid red;";
-    } else {
-        $password1=input_data($_POST["password1"]);
-        if(!preg_match($pass_pattern,$password1)){
-            $password1_error = "border-bottom: 1px solid red;";
-        }else{
-            $pass1valid=true;
-        }
-    }
-
-    if(empty($_POST["password2"])){
-        $password2_error = "border-bottom: 1px solid red;";
-    } else {
-        $password2=input_data($_POST["password2"]);
-        if(!preg_match($pass_pattern,$password2)){
-            $password2_error = "border-bottom: 1px solid red;";
-        } elseif ($_POST["password1"] !== $_POST["password2"]) {
-            $password2_error = "border-bottom: 1px solid red;";
-            $passErr="Password should be the same";
-        }else{
-                $pass2valid=true;
-            $_SESSION['password2']=$password2;
-
-        }
-    }
-
-    if ($namevalid && $surnamevalid && $emailvalid && $numbervalid && $pass1valid && $pass2valid) {
-        // Vendosni emrin e faqes së loginit në këtë variabël
-        $login_page = "login.php";
-        // Kalimi në faqen e loginit
-        header("Location: $login_page");
-        exit();
-    }
-}
 
 ?>
     <header class="header">
@@ -158,16 +59,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <h1>Register</h1>
 
                     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" > 
-                    <input type="name" name="name" id="name" placeholder="Name" style="<?php echo $name_error; ?>">
-                    <input type="surname" name="surname" id="surname" placeholder="Surname"  style="<?php echo $surname_error; ?>">
-                    <input type="number" name="number" id="number" placeholder="Phone number"  style="<?php echo $number_error; ?>">
-                    <input type="email" name="email" id="email" placeholder="Email"  style="<?php echo $email_error; ?>">
-                    <input type="password" name="password1" id="password1" placeholder="Password"  style="<?php echo $password1_error; ?>">
-                    <input type="password" name="password2" id="password2" placeholder="Confirm Password"  style="<?php echo $password2_error; ?>">
+                    <input type="name" name="name" id="name" placeholder="Name" style="<?php echo $register_validator->getNameError(); ?>">
+                    <input type="surname" name="surname" id="surname" placeholder="Surname"  style="<?php echo $register_validator->getSurnameError(); ?>">
+                    <input type="number" name="number" id="number" placeholder="Phone number"  style="<?php echo $register_validator->getNumberError(); ?>">
+                    <input type="email" name="email" id="email" placeholder="Email"  style="<?php echo $register_validator->getEmailError(); ?>">
+                    <input type="password" name="password1" id="password1" placeholder="Password"  style="<?php echo $register_validator->getPasswordError(); ?>">
+                    <input type="password" name="password2" id="password2" placeholder="Confirm Password"  style="<?php echo $register_validator->getPassMatchError(); ?>">
 
                         <input type="submit" id="sign" name="sign" class="btn" value="Sign up">
                         <!--<button type="submit" id="sign" name="sign" class="btn">Sign Up</button>-->
-                        <p id="errorMsg" name="errorMsg"><?php echo $passErr; ?></p> 
+                        <p id="errorMsg" name="errorMsg"><?php echo $register_validator->getPassErr(); ?></p> 
                     </form>
 
                 </div>
