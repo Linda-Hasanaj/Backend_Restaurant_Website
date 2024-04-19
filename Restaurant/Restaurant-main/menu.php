@@ -34,7 +34,164 @@ function addToFavorites($itemName, $itemImage)
 
 </head>
 
+    <style>
+        /* CSS styles for the different background colors */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dark-blue-bg {
+            background-color: rgb(14, 23, 33);
+            color: white;
+        }
+
+        .white-bg {
+            background-color: #ffffff;
+            color: grey;
+        }
+
+        .black-bg {
+            background-color: #000000;
+            color: white;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .color-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+
+        }
+
+        /* Button container */
+    .btn-container {
+    position: absolute;
+    top: 100px; 
+    right: 20px; 
+    background-color: var(--main-dark);
+    cursor: pointer;
+}
+
+/* Background color buttons */
+.color-btn {
+    padding: 10px 20px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    background-color: var(--main-dark);
+    margin-top: 1em;
+    cursor: pointer;
+}
+
+/* Hover effect */
+.color-btn:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Additional styling for individual buttons */
+.color-btn:nth-child(2) {
+    background-color: #fff; /* White button */
+    color: #000;
+}
+/* Mode selector container */
+.mode-selector {
+    position: absolute; /* Fixed positioning */
+    top: 100px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    text-align: center;
+}
+
+/* Mode selector text */
+.mode-selector p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* CSS styles for the mode selector */
+.mode-selector {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.mode-selector p {
+     color: var(--gold-yellow); /* Change font color to gold */
+}
+
+.mode-selector select {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid var(--gold-yellow); /* Set border to gold */
+    background-color: var(--gold-black);/* Use CSS variable for background color */
+    color: var(--gold-yellow);
+    cursor: pointer;
+}
+
+/* Background color buttons */
+.color-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px; /* Adjust as needed */
+    background-color: #007bff; /* Default button color */
+    color: #fff;
+}
+
+/* Hover effect */
+.color-btn:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Additional styling for individual buttons */
+.color-btn:nth-child(2) {
+    background-color: #fff; /* White button */
+    color: #000;
+}
+
+/* Additional styling for individual buttons */
+.color-btn:nth-child(2) {
+    background-color: #fff; /* White button */
+    color: #000;
+}
+.paragrafi{
+    font-display: italic;
+    font-size: large;
+    color: grey;
+}
+
+.mode-selector select option {
+    background-color: rgb(36, 32, 34); /* Set background color of options to grey */
+}
+
+    </style>
+
 <body>
+
+    <!-- Pjesa e php per ndrrimin e theme bg color -->
+
+<body class="<?php echo isset($_COOKIE['background_color']) ? $_COOKIE['background_color'] : 'dark-blue-bg'; ?>">
+    <header class="header">
+        <!-- Your header content -->
+    </header>
+
+    <!-- Button container to choose background color -->
+    <div class="mode-selector">
+    <p class="paragrafi">Choose your theme:</p>
+    <select id="theme-selector" onchange="changeBackgroundColor(this.value)">
+        <option value="dark-blue-bg">Dark Blue</option>
+        <option value="white-bg">White</option>
+    </select>
+</div>
+
 
     <header class="header">
         <nav class="nav row" id="nav">
