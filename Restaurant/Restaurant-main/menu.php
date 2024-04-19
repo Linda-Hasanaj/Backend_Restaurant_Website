@@ -541,6 +541,13 @@ function addToFavorites($itemName, $itemImage)
         }
     </script>
 
+    <script>
+        // Function to change the background color and set the cookie
+        function changeBackgroundColor(color) {
+            document.body.className = color;
+            document.cookie = "background_color=" + color + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+        }
+    </script>
 
 </body>
 
