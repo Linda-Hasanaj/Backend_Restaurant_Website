@@ -166,8 +166,8 @@ function addToFavorites($itemName, $itemImage)
             </div>
             <div class="starters-product">
                 <?php foreach ($menu as $item) : ?>
-                    <div class="product">
-                        <div class="product-img">
+                    <div class="prouduct">
+                        <div class="prouct-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -200,8 +200,8 @@ function addToFavorites($itemName, $itemImage)
             </div>
             <div class="starters-product">
                 <?php foreach ($main_courses as $item) : ?>
-                    <div class="product">
-                        <div class="product-img">
+                    <div class="prouduct">
+                        <div class="prouct-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -230,8 +230,8 @@ function addToFavorites($itemName, $itemImage)
             </div>
             <div class="starters-product">
                 <?php foreach ($desserts as $item) : ?>
-                    <div class="product">
-                        <div class="product-img">
+                    <div class="prouduct">
+                        <div class="prouct-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -260,8 +260,8 @@ function addToFavorites($itemName, $itemImage)
             </div>
             <div class="starters-product">
                 <?php foreach ($wine_selection as $item) : ?>
-                    <div class="product">
-                        <div class="product-img">
+                    <div class="prouduct">
+                        <div class="prouct-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -294,8 +294,8 @@ function addToFavorites($itemName, $itemImage)
                     if (isset($_SESSION['favorites'])) {
                         // Loop through favorites and display each item
                         foreach ($_SESSION['favorites'] as $favorite) {
-                            echo '<div class="product">';
-                            echo '<div class="product-img">';
+                            echo '<div class="prouduct">';
+                            echo '<div class="prouct-img">';
                             echo '<img src="' . $favorite['image'] . '" alt="' . $favorite['name'] . '">';
                             echo '</div>';
                             echo '<div class="product-title">';
