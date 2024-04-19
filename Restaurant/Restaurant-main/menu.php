@@ -1,3 +1,21 @@
+<?php
+// Start session
+session_start();
+
+// Check if favorite items array exists in session, if not, initialize it
+if (!isset($_SESSION['favorite_items'])) {
+    $_SESSION['favorite_items'] = array();
+}
+
+// Function to add an item to favorites
+function addToFavorites($itemName, $itemImage)
+{
+    // Add the item to the favorite items array in session
+    $_SESSION['favorite_items'][] = array('name' => $itemName, 'image' => $itemImage);
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/1506ca5daa.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -147,8 +166,8 @@
             </div>
             <div class="starters-product">
                 <?php foreach ($menu as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -157,6 +176,15 @@
                         </div>
                         <div class="product-price">
                             <p>$<?php echo $item->getPrice(); ?></p>
+                        </div>
+                        <div class="product-favorite">
+                            <!-- Replace the button with a heart icon -->
+
+                            <button class="favorite-btn" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
+                                <!-- Heart icon -->
+                                <i class="far fa-heart"></i>
+                            </button>
+
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -172,8 +200,8 @@
             </div>
             <div class="starters-product">
                 <?php foreach ($main_courses as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -182,6 +210,12 @@
                         </div>
                         <div class="product-price">
                             <p>$<?php echo $item->getPrice(); ?></p>
+                        </div>
+                        <div class="product-favorite">
+                            <button class="favorite-btn" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
+                                <!-- Heart icon -->
+                                <i class="far fa-heart"></i>
+                            </button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -196,8 +230,8 @@
             </div>
             <div class="starters-product">
                 <?php foreach ($desserts as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -206,6 +240,12 @@
                         </div>
                         <div class="product-price">
                             <p>$<?php echo $item->getPrice(); ?></p>
+                        </div>
+                        <div class="product-favorite">
+                            <button class="favorite-btn" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
+                                <!-- Heart icon -->
+                                <i class="far fa-heart"></i>
+                            </button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -220,8 +260,8 @@
             </div>
             <div class="starters-product">
                 <?php foreach ($wine_selection as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -231,16 +271,48 @@
                         <div class="product-price">
                             <p>$<?php echo $item->getPrice(); ?></p>
                         </div>
+                        <div class="product-favorite">
+                            <button class="favorite-btn" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
+                                <!-- Heart icon -->
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
     </section>
+    <section class="favorites">
+        <div class="container">
+            <div class="favorites-title">
+                <h1>FAVORITE ITEMS</h1>
+            </div>
+            <div class="starters-product">
+                <div class="favorites-product">
+                    <?php
+                    // Check if favorites exist in the session
+                    if (isset($_SESSION['favorites'])) {
+                        // Loop through favorites and display each item
+                        foreach ($_SESSION['favorites'] as $favorite) {
+                            echo '<div class="product">';
+                            echo '<div class="product-img">';
+                            echo '<img src="' . $favorite['image'] . '" alt="' . $favorite['name'] . '">';
+                            echo '</div>';
+                            echo '<div class="product-title">';
+                            echo '<h2>' . $favorite['name'] . '</h2>';
+                            echo '</div>';
+                            echo '</div>';
+                        }
+                    } else {
+                        // If no favorites exist, display a message
+                        echo '<p>No favorite items selected</p>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
 
-
-
-
-
+    </section>
 
     <section class="information-section">
         <div class="container2">
@@ -286,6 +358,33 @@
     </footer>
 
     <script src="javascript/index.js"></script>
+    <script>
+        function addToFavorites(button, itemName, itemImage) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        var response = JSON.parse(this.responseText);
+                        if (response.status === 'success') {
+                            // Item added successfully, toggle class and change heart color
+                            button.classList.toggle('clicked');
+                        } else {
+                            // There was an error adding the item, display the error message
+                            alert(response.message);
+                        }
+                    } else {
+                        // There was an error with the request
+                        alert('Error: ' + xhr.statusText);
+                    }
+                }
+            };
+            xhr.open("POST", "add_to_favorites.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("name=" + encodeURIComponent(itemName) + "&image=" + encodeURIComponent(itemImage));
+        }
+    </script>
+
+
 </body>
 
 </html>
