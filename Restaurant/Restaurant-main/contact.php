@@ -103,9 +103,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </a>
             <ul class="nav-list row" id="nav-list">
                 <li class="nav-item"><a href="javascript:void(0);" onclick="removeMenu()" class="nav-link"><i class="fa-solid fa-xmark"></i></a></li>
-                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="menu.php" class="nav-link">Menu</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
                 <li class="nav-item"><a href="delivery.php" class="nav-link">Delivery</a></li>
                 <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
                 <li class="nav-item"><a href="register.php" class="nav-link">Register</a></li>
