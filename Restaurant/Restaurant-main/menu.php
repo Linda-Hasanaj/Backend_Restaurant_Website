@@ -69,7 +69,6 @@ function addToFavorites($itemName, $itemImage)
             border: none;
             cursor: pointer;
             margin: 0 10px;
-            border-radius: 35px; /* Add border-radius */
         }
 
         /* Button container */
