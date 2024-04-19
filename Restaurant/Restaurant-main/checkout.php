@@ -46,6 +46,20 @@
 
 <?php
 
+session_start();
+
+if(isset($_SESSION['registration_data'])) {
+    $registration_data = $_SESSION['registration_data'];
+
+    $name_value = isset($registration_data['name']) ? $registration_data['name'] : '';
+    $email_value = isset($registration_data['email']) ? $registration_data['email'] : '';
+    $number_value = isset($registration_data['number']) ? $registration_data['number'] : '';
+} else {
+    $name_value = '';
+    $email_value = '';
+    $number_value = '';
+}
+
 $name_pattern = "/^[a-zA-Z]+(?:\s+[a-zA-Z]+)*$/";
 $email_pattern="/^[^ ]+@[^ ]+\.[a-z]{2,3}$/";
 $mobileno_pattern="/^\d{8,}$/";
@@ -121,6 +135,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
+
+
 ?>
 
     <header class="header">
@@ -146,9 +162,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <div class="headerContent">
             <aside  class="contact-form">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <input type="text" name="namee" id="name" placeholder="Name" style="<?php echo $name_error; ?>">
-                    <input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error; ?>">
-                    <input type="tel" name="number" id="phone" placeholder="Phone" style="<?php echo $number_error; ?>">
+                <input type="text" name="namee" id="name" placeholder="Name" style="<?php echo $name_error; ?>" value="<?php echo $name_value; ?>">
+<input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error; ?>" value="<?php echo $email_value; ?>">
+<input type="tel" name="number" id="phone" placeholder="Phone" style="<?php echo $number_error; ?>" value="<?php echo $number_value; ?>">
                     <input type="text" name="address" id="address" placeholder="Address" style="<?php echo $address_error; ?>">
                     <input type="text" name="message" id="message" placeholder="Message">
                     <button id="sign" class="btn">Order Now</button>

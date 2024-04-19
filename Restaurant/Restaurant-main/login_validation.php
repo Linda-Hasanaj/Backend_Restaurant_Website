@@ -5,7 +5,9 @@ class Validator {
     protected $email_error = "";
     protected $password_error = "";
     private $message = "";
+
     public function __construct() {
+
         $this->validate();
     }
 
@@ -52,6 +54,7 @@ class Validator {
             $this->validatePassword($password);
 
             if ($this->validateEmail($email) &&  $this->validatePassword($password)) {
+
                 // Vendosni emrin e faqes së loginit në këtë variabël
                 $index_page = "index.php";
                 // Kalimi në faqen e loginit
