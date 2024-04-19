@@ -19,7 +19,10 @@
 <?php
 include ("login_validation.php");
 
+
 $login_validator = new Validator();
+
+
 
 
 ?>

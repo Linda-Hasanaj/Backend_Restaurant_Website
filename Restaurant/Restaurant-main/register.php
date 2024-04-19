@@ -26,10 +26,21 @@
 <?php
 include ("register_validation.php");
 
-
 session_start();
 
+
+
 $register_validator = new RegisterValidator();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $_SESSION['registration_data'] = array(
+        'name' => $_POST['name'],
+        'surname' => $_POST['surname'],
+        'email' => $_POST['email'],
+        'number' => $_POST['number']
+    );}
+
+
 
 
 ?>
