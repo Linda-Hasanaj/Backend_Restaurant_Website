@@ -8,11 +8,27 @@ if (isset($_POST['name']) && isset($_POST['image'])) {
         $_SESSION['favorites'] = array();
     }
 
-    // Add the selected item to favorites
-    $_SESSION['favorites'][] = array('name' => $_POST['name'], 'image' => $_POST['image']);
+    // Check if item is already in favorites
+    $foundIndex = -1;
+    foreach ($_SESSION['favorites'] as $index => $favorite) {
+        if ($favorite['name'] === $_POST['name'] && $favorite['image'] === $_POST['image']) {
+            $foundIndex = $index;
+            break;
+        }
+    }
 
-    // Send success response
-    echo json_encode(array('status' => 'success', 'message' => 'Item added to favorites'));
+    // If item is already in favorites, remove it; otherwise, add it
+    if ($foundIndex !== -1) {
+        // Remove item from favorites
+        unset($_SESSION['favorites'][$foundIndex]);
+        // Send success response indicating item was removed from favorites
+        echo json_encode(array('status' => 'success', 'message' => 'Item removed from favorites'));
+    } else {
+        // Add the selected item to favorites
+        $_SESSION['favorites'][] = array('name' => $_POST['name'], 'image' => $_POST['image']);
+        // Send success response indicating item was added to favorites
+        echo json_encode(array('status' => 'success', 'message' => 'Item added to favorites'));
+    }
 } else {
     // Send error response
     echo json_encode(array('status' => 'error', 'message' => 'Name and image not provided'));
