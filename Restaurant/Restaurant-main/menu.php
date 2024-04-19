@@ -69,7 +69,7 @@ function addToFavorites($itemName, $itemImage)
             border: none;
             cursor: pointer;
             margin: 0 10px;
-            border-radius: 35px; /* Add border-radius */
+
         }
 
         /* Button container */
@@ -79,7 +79,6 @@ function addToFavorites($itemName, $itemImage)
     right: 20px; 
     background-color: var(--main-dark);
     cursor: pointer;
-    border-radius: 59px;
 }
 
 /* Background color buttons */
