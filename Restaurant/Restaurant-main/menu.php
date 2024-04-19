@@ -34,7 +34,159 @@ function addToFavorites($itemName, $itemImage)
 
 </head>
 
+<style>
+        /* CSS styles for the different background colors */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            border-radius: 20px;
+        }
+
+        .dark-blue-bg {
+            background-color: rgb(14, 23, 33);
+            color: white;
+        }
+
+        .white-bg {
+            background-color: #ffffff;
+            color: grey;
+        }
+
+        .black-bg {
+            background-color: #000000;
+            color: white;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .color-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+            border-radius: 35px; /* Add border-radius */
+        }
+
+        /* Button container */
+    .btn-container {
+    position: absolute;
+    top: 100px; 
+    right: 20px; 
+    background-color: var(--main-dark);
+    cursor: pointer;
+    border-radius: 59px;
+}
+
+/* Background color buttons */
+.color-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    background-color: var(--main-dark);
+    margin-top: 1em;
+    cursor: pointer;
+}
+
+/* Hover effect */
+.color-btn:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Additional styling for individual buttons */
+.color-btn:nth-child(2) {
+    background-color: #fff; /* White button */
+    color: #000;
+}
+/* Mode selector container */
+.mode-selector {
+    position: absolute; /* Fixed positioning */
+    top: 100px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    text-align: center;
+}
+
+/* Mode selector text */
+.mode-selector p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* CSS styles for the mode selector */
+.mode-selector {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.mode-selector p {
+     color: var(--gold-yellow); /* Change font color to gold */
+}
+
+.mode-selector select {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid var(--gold-yellow); /* Set border to gold */
+    background-color: var(--gold-black);/* Use CSS variable for background color */
+    color: var(--gold-yellow);
+    cursor: pointer;
+    border-radius: 5px; /* Add border radius */
+}
+
+/* Background color buttons */
+.color-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px; /* Adjust as needed */
+    background-color: #007bff; /* Default button color */
+    color: #fff;
+    border-radius: 5px; /* Add border-radius */
+}
+
+/* Hover effect */
+.color-btn:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Additional styling for individual buttons */
+.color-btn:nth-child(2) {
+    background-color: #fff; /* White button */
+    color: #000;
+}
+
+/* Additional styling for individual buttons */
+.color-btn:nth-child(2) {
+    background-color: #fff; /* White button */
+    color: #000;
+}
+
+    </style>
+
 <body>
+
+
+<body class="<?php echo isset($_COOKIE['background_color']) ? $_COOKIE['background_color'] : 'dark-blue-bg'; ?>">
+    <header class="header">
+        <!-- Your header content -->
+    </header>
+
+    <!-- Your existing content -->
+
+    <!-- Button container to choose background color -->
+    <div class="mode-selector">
+    <p>Choose your theme:</p>
+    <select id="theme-selector" onchange="changeBackgroundColor(this.value)">
+        <option value="dark-blue-bg">Dark Blue</option>
+        <option value="white-bg">White</option>
+    </select>
+</div>
 
     <header class="header">
         <nav class="nav row" id="nav">
@@ -166,8 +318,8 @@ function addToFavorites($itemName, $itemImage)
             </div>
             <div class="starters-product">
                 <?php foreach ($menu as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -200,8 +352,8 @@ function addToFavorites($itemName, $itemImage)
             </div>
             <div class="starters-product">
                 <?php foreach ($main_courses as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -230,8 +382,8 @@ function addToFavorites($itemName, $itemImage)
             </div>
             <div class="starters-product">
                 <?php foreach ($desserts as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -260,8 +412,8 @@ function addToFavorites($itemName, $itemImage)
             </div>
             <div class="starters-product">
                 <?php foreach ($wine_selection as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -294,8 +446,8 @@ function addToFavorites($itemName, $itemImage)
                     if (isset($_SESSION['favorites'])) {
                         // Loop through favorites and display each item
                         foreach ($_SESSION['favorites'] as $favorite) {
-                            echo '<div class="prouduct">';
-                            echo '<div class="prouct-img">';
+                            echo '<div class="product">';
+                            echo '<div class="product-img">';
                             echo '<img src="' . $favorite['image'] . '" alt="' . $favorite['name'] . '">';
                             echo '</div>';
                             echo '<div class="product-title">';
@@ -381,6 +533,14 @@ function addToFavorites($itemName, $itemImage)
             xhr.open("POST", "add_to_favorites.php", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.send("name=" + encodeURIComponent(itemName) + "&image=" + encodeURIComponent(itemImage));
+        }
+    </script>
+
+<script>
+        // Function to change the background color and set the cookie
+        function changeBackgroundColor(color) {
+            document.body.className = color;
+            document.cookie = "background_color=" + color + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
         }
     </script>
 
