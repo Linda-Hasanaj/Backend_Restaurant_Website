@@ -303,7 +303,6 @@ function addToFavorites($itemName, $itemImage)
         ksort($newMain);
         $main_courses = array_values($newMain);
 
-
         $desserts = array(
             new MenuItem("BIG CHOCOLATE CAKE", 11, "With Fresh Cream & Hazelnut Ice Cream", "images/menu/dessert1.jpg"),
             new MenuItem("MACARONS", 12, "4 macarons with different flavors", "images/menu/dessert2.jpg"),
@@ -319,7 +318,6 @@ function addToFavorites($itemName, $itemImage)
 
         ksort($newDess);
         $desserts = array_values($newDess);
-
 
         $wine_selection = array(
             new MenuItem("SARAFIN", 17, "Cabernet Sauvignon 2018", "images/menu/wine1.jpg"),

@@ -1,5 +1,5 @@
 <?php
-setcookie("fav_food","pizza",time() + 86400 *2,"/"); // "/" dmath e kemi perdor the default path
+setcookie("fav_food","burger",time() + 86400 *2,"/"); // "/" dmath e kemi perdor the default path
 ?>
 
 <!DOCTYPE html>
@@ -21,28 +21,24 @@ setcookie("fav_food","pizza",time() + 86400 *2,"/"); // "/" dmath e kemi perdor 
     <?php
 if(isset($_COOKIE["fav_food"])){
     $fav_food = $_COOKIE["fav_food"];
-    // Define the photo URL based on the user's favorite food
+    // Definojme URL e fotografise
     $photo_url = '';
 
-    // Assuming you have predefined photo URLs for each favorite food
     switch ($fav_food) {
         case 'pizza':
             $photo_url = 'pizza.jpg';
-            // Set the width and height attributes for the pizza image
-            $width = 320; // Adjust the width as needed
-            $height = 170; // Adjust the height as needed
+            $width = 320; 
+            $height = 170; 
             break;
         case 'burger':
             $photo_url = 'burger.jpg';
-            // Set the width and height attributes for the burger image
-            $width = 320; // Adjust the width as needed
-            $height = 160; // Adjust the height as needed
+            $width = 320; 
+            $height = 160; 
             break;
-        // Add more cases for other favorite foods as needed
         default:
-            $photo_url = 'default.jpg'; // Default photo if the favorite food is not recognized
-            $width = 100; // Default width
-            $height = 100; // Default height
+            $photo_url = 'default.jpg'; 
+            $width = 100; 
+            $height = 100; 
     }
     // Output the container <div> with the image inside
     echo "<div id='favorite-food-container' style='position: fixed; top: 85px; right: 20px; text-align: center;'>"; // Adjust top and right values as needed
