@@ -1,122 +1,94 @@
 <?php
-include  ("login_validation.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+include("db_connect.php");
 
-class RegisterValidator extends Validator {
-    private $name_pattern = "/^([a-zA-Z]){2,30}$/";
-    private $surname_pattern = "/^([a-zA-Z]){2,30}$/";
-    private $mobileno_pattern = "/^\d{8,}$/";
-    private $name_error="";
-    private $surname_error="";
-    private $number_error="";
-    private $passMatch_error="";
-    private $passErr="";
-    public function __construct() {
-        $this->validate();
+class RegisterValidator {
+    private $nameError = "";
+    private $surnameError = "";
+    private $emailError = "";
+    private $numberError = "";
+    private $passwordError = "";
+    private $passMatchError = "";
+    private $passErr = "";
+
+    public function getNameError() { return $this->nameError; }
+    public function getSurnameError() { return $this->surnameError; }
+    public function getEmailError() { return $this->emailError; }
+    public function getNumberError() { return $this->numberError; }
+    public function getPasswordError() { return $this->passwordError; }
+    public function getPassMatchError() { return $this->passMatchError; }
+    public function getPassErr() { return $this->passErr; }
+
+    public function validateInput($name, $surname, $email, $number, $password1, $password2) {
+        $valid = true;
+
+        // Check if fields are empty
+        if (empty($name)) { 
+            $this->nameError = "border: 1px solid red;"; 
+            $valid = false; 
+        }
+        if (empty($surname)) { 
+            $this->surnameError = "border: 1px solid red;"; 
+            $valid = false; 
+        }
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) { 
+            $this->emailError = "border: 1px solid red;"; 
+            $valid = false; 
+        }
+        if (empty($number) || !preg_match("/^[0-9]{10,15}$/", $number)) { 
+            $this->numberError = "border: 1px solid red;"; 
+            $valid = false; 
+        }
+        if (empty($password1) || strlen($password1) < 6) { 
+            $this->passwordError = "border: 1px solid red;"; 
+            $valid = false; 
+        }
+        if ($password1 !== $password2) { 
+            $this->passMatchError = "border: 1px solid red;"; 
+            $valid = false; 
+        }
+
+        return $valid;
     }
 
-    private function validateName($name) {
-        if (empty($name)) {
-            $this->name_error = "border-bottom: 1px solid red;";
-            return false;
-        } else {
-            if (!preg_match($this->name_pattern, $name)) {
-                $this->name_error = "border-bottom: 1px solid red;";
-                return false;
-            } else {
-                return true;
+    public function insertUser($name, $surname, $email, $number, $password) {
+        global $conn;
+
+        try {
+            // Prepare the SQL statement
+            $sql = "INSERT INTO users (name, surname, email, number, password) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                throw new Exception("Prepare statement failed: " . $conn->error);
             }
-        }
-    }
 
-    private function validateSurname($surname) {
-        if (empty($surname)) {
-            $this->surname_error = "border-bottom: 1px solid red;";
-            return false;
-        } else {
-            if (!preg_match($this->surname_pattern, $surname)) {
-                $this->surname_error = "border-bottom: 1px solid red;";
-                return false;
-            } else {
-                return true;
+            // Hash the password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // Bind parameters
+            if (!$stmt->bind_param("sssss", $name, $surname, $email, $number, $hashed_password)) {
+                throw new Exception("Binding parameters failed: " . $stmt->error);
             }
-        }
-    }
 
-    private function validateMobileNumber($number) {
-        if (empty($number)) {
-            $this->number_error = "border-bottom: 1px solid red;";
-            return false;
-        } else {
-            if (!preg_match($this->mobileno_pattern, $number)) {
-                $this->number_error = "border-bottom: 1px solid red;";
-                return false;
-            } else {
-                return true;
+            // Execute the statement
+            if (!$stmt->execute()) {
+                throw new Exception("Execute statement failed: " . $stmt->error);
             }
+
+            // Close the statement
+            $stmt->close();
+
+            // Redirect to index.php after successful insertion
+            header("Location: indexAfterSignUp.php");
+            exit;
+        } catch (Exception $e) {
+            // Log the error and display a generic message to the user
+            error_log($e->getMessage());
+            echo "Something went wrong. Please try again later.";
         }
     }
-    
-    private function validatePasswordMatch($password1, $password2) {
-        if (empty($password2)) {
-            $this->passMatch_error = "border-bottom: 1px solid red;";
-            return false;
-        } else {
-            if (!preg_match($this->password_pattern, $password2)) {
-                $this->passMatch_error = "border-bottom: 1px solid red;";
-                return false;
-            } else if ($password1 !== $password2) {
-            $this->passMatch_error = "border-bottom: 1px solid red;";
-            $this->passErr="Password should be the same";
-            return false;
-        } else {
-            return true;
-        }
-    }}
-    
-    
-    private function validate() {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $name = $this->input_data($_POST["name"]);
-            $surname = $this->input_data($_POST["surname"]);
-            $email = $this->input_data($_POST["email"]);
-            $number = $this->input_data($_POST["number"]);
-            $password1 = $this->input_data($_POST["password1"]);
-            $password2 = $this->input_data($_POST["password2"]);
-            $this->validateEmail($email);
-            $this->validateName($name);
-            $this->validateSurname($surname);
-            $this->validateMobileNumber($number);
-            $this->validatePassword($password1);
-            $this->validatePasswordMatch($password1, $password2);
-
-            if ($this->validateName($name) && $this->validateSurname($surname)&& $this->validateEmail($email) && $this->validateMobileNumber($number)
-             && $this->validatePassword($password1)&&  $this-> validatePasswordMatch($password1, $password2)) {
-                // Vendosni emrin e faqes së loginit në këtë variabël
-                $login_page = "login.php";
-                // Kalimi në faqen e loginit
-                header("Location: $login_page");
-                exit();
-            }
-        }
-    }
-    
-    public function getNameError() {
-        return $this->name_error;
-    }
-    public function getSurnameError() {
-        return $this->surname_error;
-    }
-    public function getNumberError() {
-        return $this->number_error;
-    }
-    public function getPassMatchError() {
-        return $this->passMatch_error;
-    }
-    public function getPassErr() {
-        return $this->passErr;
-    }
-
-
 }
 
+$conn->close();
 ?>
