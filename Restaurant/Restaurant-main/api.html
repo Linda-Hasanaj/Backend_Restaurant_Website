@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Reservations</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h1>User Reservations</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Reservation ID</th>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Number</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>People</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody id="reservationTable">
+        <!-- Reservation data will be inserted here -->
+    </tbody>
+</table>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('api.php') // Adjust the URL to your API endpoint
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('reservationTable');
+            data.forEach(reservation => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${reservation.id}</td>
+                    <td>${reservation.user_id}</td>
+                    <td>${reservation.name}</td>
+                    <td>${reservation.surname}</td>
+                    <td>${reservation.email}</td>
+                    <td>${reservation.number}</td>
+                    <td>${reservation.user_date}</td>
+                    <td>${reservation.time}</td>
+                    <td>${reservation.people}</td>
+                    <td>${reservation.created_at}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        });
+});
+</script>
+
+</body>
+</html>
