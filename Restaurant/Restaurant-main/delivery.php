@@ -4,8 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-require_once 'error_handler.php'; // Ensure the custom error handler is included only once
-require_once 'db_connect.php'; // Ensure the DB connection is included only once
+require_once 'error_handler.php';
+require_once 'db_connect.php';
 
 if (!isset($_SESSION['favorite_items'])) {
     $_SESSION['favorite_items'] = array();
@@ -15,30 +15,23 @@ function addToFavorites($itemName, $itemImage) {
     $_SESSION['favorite_items'][] = array('name' => $itemName, 'image' => $itemImage);
 }
 
-// Fetch menu items from the database
 $menu = array();
-$sql = "SELECT * FROM menu_items";
+$sortByPrice = $_GET['sort'] ?? '';
+
+$order = '';
+if ($sortByPrice == 'asc') {
+    $order = 'ORDER BY price ASC';
+} elseif ($sortByPrice == 'desc') {
+    $order = 'ORDER BY price DESC';
+}
+
+$sql = "SELECT name, price, description, image FROM menu_items $order";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) {
         $menu[] = $row;
     }
-} else {
-    $db_status = "No menu items found.";
-    $db_status_class = "db-fail";
-    error_log("No menu items found.", 3, "/path/to/your/error.log"); // Log the error to a file
-}
-
-$sortByPrice = $_GET['sort'] ?? '';
-if ($sortByPrice == 'asc') {
-    usort($menu, function($a, $b) {
-        return $a['price'] - $b['price'];
-    });
-} elseif ($sortByPrice == 'desc') {
-    usort($menu, function($a, $b) {
-        return $b['price'] - $a['price'];
-    });
 }
 
 function get_menu_html($menu) {
