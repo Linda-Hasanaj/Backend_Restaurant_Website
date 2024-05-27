@@ -15,14 +15,20 @@ function addToFavorites($itemName, $itemImage) {
     $_SESSION['favorite_items'][] = array('name' => $itemName, 'image' => $itemImage);
 }
 
-$menu = array(
-    array("name" => "TOMATO BRUSCHETTA", "price" => 12, "description" => "Tomates, Olive Oil, Cheese", "image" => "images/menu/Starters1.jpg"),
-    array("name" => "CHEESE PLATE", "price" => 18, "description" => "Selected Cheeses, Grapes", "image" => "images/menu/starters2.jpg"),
-    array("name" => "EGGS BENEDICT", "price" => 7, "description" => "2 Eggs, Spinach, Potatoes", "image" => "images/menu/starters3.jpg"),
-    array("name" => "GUACAMOLE", "price" => 14, "description" => "Avocado, Tomatoes, Nachos", "image" => "images/menu/starters4.jpg"),
-    array("name" => "BAKED POTATO SKINS", "price" => 5, "description" => "Potatoes, Oil, Garlic", "image" => "images/menu/starters5.jpg"),
-    array("name" => "JAMBON IBERICO", "price" => 25, "description" => "Smoked Tomato Aioli", "image" => "images/menu/starters6.jpg")
-);
+// Fetch menu items from the database
+$menu = array();
+$sql = "SELECT * FROM menu_items";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $menu[] = $row;
+    }
+} else {
+    $db_status = "No menu items found.";
+    $db_status_class = "db-fail";
+    error_log("No menu items found.", 3, "/path/to/your/error.log"); // Log the error to a file
+}
 
 $sortByPrice = $_GET['sort'] ?? '';
 if ($sortByPrice == 'asc') {

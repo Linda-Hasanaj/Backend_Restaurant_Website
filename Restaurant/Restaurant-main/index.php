@@ -8,11 +8,12 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "registration_db";
+$port=3307;
 
 
 // perdorimi i try and catch 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname;port=$port", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $db_status = "Database connection successful";
     $db_status_class = "db-success";
