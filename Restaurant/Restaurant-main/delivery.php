@@ -15,8 +15,6 @@ function addToFavorites($itemName, $itemImage) {
     $_SESSION['favorite_items'][] = array('name' => $itemName, 'image' => $itemImage);
 }
 
-include("header.php");
-
 $menu = array(
     array("name" => "TOMATO BRUSCHETTA", "price" => 12, "description" => "Tomates, Olive Oil, Cheese", "image" => "images/menu/Starters1.jpg"),
     array("name" => "CHEESE PLATE", "price" => 18, "description" => "Selected Cheeses, Grapes", "image" => "images/menu/starters2.jpg"),
@@ -36,6 +34,28 @@ if ($sortByPrice == 'asc') {
         return $b['price'] - $a['price'];
     });
 }
+
+function get_menu_html($menu) {
+    $html = '';
+    foreach ($menu as $key => $item) {
+        if (!file_exists($item['image'])) {
+            trigger_error("Image does not exist for product: " . $item['name'], E_USER_WARNING);
+        }
+        $html .= '<div class="product">';
+        $html .= '<div class="product-img"><img src="' . $item['image'] . '" alt="' . $item['name'] . '"></div>';
+        $html .= '<div class="product-title"><h2 id="item-' . ($key + 1) . '">' . $item['name'] . '</h2>';
+        $html .= '<p>' . $item['description'] . '</p></div>';
+        $html .= '<div class="product-price"><p>$ <span id="price-' . ($key + 1) . '">' . $item['price'] . '</span></p>';
+        $html .= '<button class="btn add-to-cart" data-name="' . $item['name'] . '" data-price="' . $item['price'] . '">Add to cart</button></div>';
+        $html .= '</div>';
+    }
+    return $html;
+}
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+    echo get_menu_html($menu);
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +70,7 @@ if ($sortByPrice == 'asc') {
     <script src="https://kit.fontawesome.com/1506ca5daa.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<?php include 'header.php'; ?>  
     <div class="headerContent">
         <p>MODERN STYLE CUISINE</p>
         <h1>ORDER FOOD</h1>
@@ -58,25 +79,8 @@ if ($sortByPrice == 'asc') {
 
     <section class="delivery">
         <div class="menu-items">
-            <div class="starters-product">
-                <?php foreach ($menu as $key => $item) : ?>
-                    <?php if (!file_exists($item['image'])): ?>
-                        <?php trigger_error("Imazhi nuk ekziston për produktin: " . $item['name'], E_USER_WARNING); ?>
-                    <?php endif; ?>
-                    <div class="product">
-                        <div class="product-img">
-                            <img src="<?php echo $item['image']; ?>" alt="">
-                        </div>
-                        <div class="product-title">
-                            <h2 id="item-<?php echo $key + 1; ?>"><?php echo $item['name']; ?></h2>
-                            <p><?php echo $item['description']; ?></p>
-                        </div>
-                        <div class="product-price">
-                            <p>$ <span id="price-<?php echo $key + 1; ?>"><?php echo $item['price']; ?></span></p>
-                            <button class="btn" id="add-item-<?php echo $key + 1; ?>">Add to cart</button>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+            <div class="starters-product" id="menu-container">
+                <?php echo get_menu_html($menu); ?>
             </div>
         </div>
 
@@ -109,10 +113,65 @@ if ($sortByPrice == 'asc') {
     <?php include("footer.php"); ?>
 
     <script>
+        let cart = [];
+        let total = 0;
+
         function sortMenu() {
-            var sortBy = document.getElementById("sort-option").value;
-            window.location.href = 'delivery.php?sort=' + sortBy;
+            const sortBy = document.getElementById("sort-option").value;
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'delivery.php?ajax=1&sort=' + sortBy, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('menu-container').innerHTML = xhr.responseText;
+                    attachEventListeners(); // Re-attach event listeners after AJAX update
+                }
+            };
+            xhr.send();
         }
+
+        function attachEventListeners() {
+            document.querySelectorAll('.add-to-cart').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const name = this.getAttribute('data-name');
+                    const price = parseFloat(this.getAttribute('data-price'));
+                    addToCart(name, price);
+                });
+            });
+            document.getElementById('order-now').addEventListener('click', function() {
+                alert('Order placed!');
+                // Add your order handling logic here
+            });
+            document.getElementById('clear').addEventListener('click', function() {
+                clearCart();
+            });
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            total += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartContainer = document.getElementById('cart');
+            cartContainer.innerHTML = '';
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.textContent = `${item.name} - $${item.price}`;
+                cartContainer.appendChild(cartItem);
+            });
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function clearCart() {
+            cart = [];
+            total = 0;
+            updateCart();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            attachEventListeners();
+        });
     </script>
     <script src="javascript/index.js"></script>
     <script src="javascript/delivery.js"></script>
