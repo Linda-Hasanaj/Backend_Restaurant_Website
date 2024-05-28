@@ -1,18 +1,5 @@
 <?php
-// Start session
 session_start();
-
-// Check if favorite items array exists in session, if not, initialize it
-if (!isset($_SESSION['favorite_items'])) {
-    $_SESSION['favorite_items'] = array();
-}
-
-// Function to add an item to favorites
-function addToFavorites($itemName, $itemImage)
-{
-    // Add the item to the favorite items array in session
-    $_SESSION['favorite_items'][] = array('name' => $itemName, 'image' => $itemImage);
-}
 
 // Include the common header
 include("header.php");
@@ -33,171 +20,136 @@ include("header.php");
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/1506ca5daa.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
+        .dark-blue-bg {
+            background-color: rgb(14, 23, 33);
+            color: white;
+        }
+
+        .white-bg {
+            background-color: #ffffff;
+            color: grey;
+        }
+
+        .black-bg {
+            background-color: #000000;
+            color: white;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .color-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .btn-container {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            background-color: var(--main-dark);
+            cursor: pointer;
+        }
+
+        .color-btn {
+            padding: 10px 20px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            background-color: var(--main-dark);
+            margin-top: 1em;
+            cursor: pointer;
+        }
+
+        .color-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .color-btn:nth-child(2) {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .mode-selector {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            text-align: center;
+        }
+
+        .mode-selector p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .mode-selector {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .mode-selector p {
+            color: var(--gold-yellow);
+        }
+
+        .mode-selector select {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 2px solid var(--gold-yellow);
+            background-color: var(--gold-black);
+            color: var(--gold-yellow);
+            cursor: pointer;
+        }
+
+        .color-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .color-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .color-btn:nth-child(2) {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .paragrafi {
+            font-display: italic;
+            font-size: large;
+            color: grey;
+        }
+
+        .mode-selector select option {
+            background-color: rgb(36, 32, 34);
+        }
+
+        .favorite-btn.clicked .fa-heart {
+            color: green;
+        }
+    </style>
 </head>
-
-<style>
-    /* CSS styles for the different background colors */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .dark-blue-bg {
-        background-color: rgb(14, 23, 33);
-        color: white;
-    }
-
-    .white-bg {
-        background-color: #ffffff;
-        color: grey;
-    }
-
-    .black-bg {
-        background-color: #000000;
-        color: white;
-    }
-
-    .btn-container {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .color-btn {
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-        margin: 0 10px;
-
-    }
-
-    /* Button container */
-    .btn-container {
-        position: absolute;
-        top: 100px;
-        right: 20px;
-        background-color: var(--main-dark);
-        cursor: pointer;
-    }
-
-    /* Background color buttons */
-    .color-btn {
-        padding: 10px 20px;
-        font-size: 20px;
-        border: none;
-        cursor: pointer;
-        margin-left: 10px;
-        background-color: var(--main-dark);
-        margin-top: 1em;
-        cursor: pointer;
-    }
-
-    /* Hover effect */
-    .color-btn:hover {
-        background-color: #0056b3;
-        /* Darker color on hover */
-    }
-
-    /* Additional styling for individual buttons */
-    .color-btn:nth-child(2) {
-        background-color: #fff;
-        /* White button */
-        color: #000;
-    }
-
-    /* Mode selector container */
-    .mode-selector {
-        position: absolute;
-        /* Fixed positioning */
-        top: 100px;
-        /* Adjust as needed */
-        right: 20px;
-        /* Adjust as needed */
-        text-align: center;
-    }
-
-    /* Mode selector text */
-    .mode-selector p {
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
-
-    /* CSS styles for the mode selector */
-    .mode-selector {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .mode-selector p {
-        color: var(--gold-yellow);
-        /* Change font color to gold */
-    }
-
-    .mode-selector select {
-        padding: 10px 20px;
-        font-size: 16px;
-        border: 2px solid var(--gold-yellow);
-        /* Set border to gold */
-        background-color: var(--gold-black);
-        /* Use CSS variable for background color */
-        color: var(--gold-yellow);
-        cursor: pointer;
-    }
-
-    /* Background color buttons */
-    .color-btn {
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-        margin-left: 10px;
-        /* Adjust as needed */
-        background-color: #007bff;
-        /* Default button color */
-        color: #fff;
-    }
-
-    /* Hover effect */
-    .color-btn:hover {
-        background-color: #0056b3;
-        /* Darker color on hover */
-    }
-
-    /* Additional styling for individual buttons */
-    .color-btn:nth-child(2) {
-        background-color: #fff;
-        /* White button */
-        color: #000;
-    }
-
-    /* Additional styling for individual buttons */
-    .color-btn:nth-child(2) {
-        background-color: #fff;
-        /* White button */
-        color: #000;
-    }
-
-    .paragrafi {
-        font-display: italic;
-        font-size: large;
-        color: grey;
-    }
-
-    .mode-selector select option {
-        background-color: rgb(36, 32, 34);
-        /* Set background color of options to grey */
-    }
-
-    .favorite-btn.clicked .far.fa-heart {
-        color: darkgreen;
-        /* Color when clicked */
-    }
-</style>
 
 <body class="<?php echo isset($_COOKIE['background_color']) ? $_COOKIE['background_color'] : 'dark-blue-bg'; ?>">
 
-    <!-- Button container to choose background color -->
     <div class="mode-selector">
         <p class="paragrafi">Choose your theme:</p>
         <select id="theme-selector" onchange="changeBackgroundColor(this.value)">
@@ -314,9 +266,20 @@ include("header.php");
                 <h1>STARTERS</h1>
             </div>
             <div class="starters-product">
-                <?php foreach ($menu as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                <?php foreach ($menu as $item) :
+                    // Check if item is already in favorites
+                    $isFavorite = false;
+                    if (isset($_SESSION['favorites'])) {
+                        foreach ($_SESSION['favorites'] as $favorite) {
+                            if ($favorite['name'] === $item->getName() && $favorite['image'] === $item->getImage()) {
+                                $isFavorite = true;
+                                break;
+                            }
+                        }
+                    }
+                ?>
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -328,7 +291,7 @@ include("header.php");
                         </div>
                         <div class="product-favorite">
                             <!-- Replace the button with a heart icon -->
-                            <button class="favorite-btn" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
+                            <button class="favorite-btn <?php echo $isFavorite ? 'clicked' : ''; ?>" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
                                 <!-- Heart icon -->
                                 <i class="far fa-heart"></i>
                             </button>
@@ -345,9 +308,20 @@ include("header.php");
                 <h1>MAIN COURSES</h1>
             </div>
             <div class="starters-product">
-                <?php foreach ($main_courses as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                <?php foreach ($main_courses as $item) :
+                    // Check if item is already in favorites
+                    $isFavorite = false;
+                    if (isset($_SESSION['favorites'])) {
+                        foreach ($_SESSION['favorites'] as $favorite) {
+                            if ($favorite['name'] === $item->getName() && $favorite['image'] === $item->getImage()) {
+                                $isFavorite = true;
+                                break;
+                            }
+                        }
+                    }
+                ?>
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -358,7 +332,7 @@ include("header.php");
                             <p>$<?php echo $item->getPrice(); ?></p>
                         </div>
                         <div class="product-favorite">
-                            <button class="favorite-btn" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
+                            <button class="favorite-btn <?php echo $isFavorite ? 'clicked' : ''; ?>" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
                                 <!-- Heart icon -->
                                 <i class="far fa-heart"></i>
                             </button>
@@ -375,9 +349,20 @@ include("header.php");
                 <h1>DESSERTS</h1>
             </div>
             <div class="starters-product">
-                <?php foreach ($desserts as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                <?php foreach ($desserts as $item) :
+                    // Check if item is already in favorites
+                    $isFavorite = false;
+                    if (isset($_SESSION['favorites'])) {
+                        foreach ($_SESSION['favorites'] as $favorite) {
+                            if ($favorite['name'] === $item->getName() && $favorite['image'] === $item->getImage()) {
+                                $isFavorite = true;
+                                break;
+                            }
+                        }
+                    }
+                ?>
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -388,7 +373,7 @@ include("header.php");
                             <p>$<?php echo $item->getPrice(); ?></p>
                         </div>
                         <div class="product-favorite">
-                            <button class="favorite-btn" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
+                            <button class="favorite-btn <?php echo $isFavorite ? 'clicked' : ''; ?>" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
                                 <!-- Heart icon -->
                                 <i class="far fa-heart"></i>
                             </button>
@@ -405,9 +390,20 @@ include("header.php");
                 <h1>WINE SELECTION</h1>
             </div>
             <div class="starters-product">
-                <?php foreach ($wine_selection as $item) : ?>
-                    <div class="prouduct">
-                        <div class="prouct-img">
+                <?php foreach ($wine_selection as $item) :
+                    // Check if item is already in favorites
+                    $isFavorite = false;
+                    if (isset($_SESSION['favorites'])) {
+                        foreach ($_SESSION['favorites'] as $favorite) {
+                            if ($favorite['name'] === $item->getName() && $favorite['image'] === $item->getImage()) {
+                                $isFavorite = true;
+                                break;
+                            }
+                        }
+                    }
+                ?>
+                    <div class="product">
+                        <div class="product-img">
                             <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                         </div>
                         <div class="product-title">
@@ -418,7 +414,7 @@ include("header.php");
                             <p>$<?php echo $item->getPrice(); ?></p>
                         </div>
                         <div class="product-favorite">
-                            <button class="favorite-btn" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
+                            <button class="favorite-btn <?php echo $isFavorite ? 'clicked' : ''; ?>" onclick="addToFavorites(this, '<?php echo $item->getName(); ?>', '<?php echo $item->getImage(); ?>')">
                                 <!-- Heart icon -->
                                 <i class="far fa-heart"></i>
                             </button>
@@ -441,8 +437,8 @@ include("header.php");
                     if (isset($_SESSION['favorites'])) {
                         // Loop through favorites and display each item
                         foreach ($_SESSION['favorites'] as $favorite) {
-                            echo '<div class="prouduct">';
-                            echo '<div class="prouct-img">';
+                            echo '<div class="product">';
+                            echo '<div class="product-img">';
                             echo '<img src="' . $favorite['image'] . '" alt="' . $favorite['name'] . '">';
                             echo '</div>';
                             echo '<div class="product-title">';
@@ -458,7 +454,6 @@ include("header.php");
                 </div>
             </div>
         </div>
-
     </section>
 
     <section class="information-section">
@@ -480,31 +475,42 @@ include("header.php");
 
     <?php include("footer.php"); ?>
 
-    <script src="javascript/index.js"></script>
     <script>
         function addToFavorites(button, itemName, itemImage) {
             var xhr = new XMLHttpRequest();
+
+            // Set the response type to JSON for automatic parsing
+            xhr.responseType = 'json';
+
+            // Define a timeout period (e.g., 10 seconds)
+            var timeoutPeriod = 10000; // 10,000 milliseconds = 10 seconds
+
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4) {
+                    clearTimeout(timeout); // Clear the timeout as the request is complete
                     if (this.status == 200) {
-                        var response = JSON.parse(this.responseText);
+                        // Use responseType to get JSON directly
+                        var response = this.response;
+
                         if (response.status === 'success') {
-                            // Item added successfully
+                            // Toggle the clicked class to change color
                             button.classList.toggle('clicked');
+
                             // If item was added to favorites, add it to the favorites section without refreshing
-                            if (button.classList.contains('clicked')) {
+                            if (response.action === 'added') {
                                 var favoritesSection = document.querySelector('.favorites-product');
                                 var product = document.createElement('div');
                                 product.classList.add('product');
+                                product.setAttribute('data-name', itemName);
                                 product.innerHTML = `
-                                <div class="product-img">
-                                    <img src="${itemImage}" alt="${itemName}">
-                                </div>
-                                <div class="product-title">
-                                    <h2>${itemName}</h2>
-                                </div>`;
+                                    <div class="product-img">
+                                        <img src="${itemImage}" alt="${itemName}">
+                                    </div>
+                                    <div class="product-title">
+                                        <h2>${itemName}</h2>
+                                    </div>`;
                                 favoritesSection.appendChild(product);
-                            } else {
+                            } else if (response.action === 'removed') {
                                 // If item was removed from favorites, remove it from the favorites section
                                 var favoriteItems = document.querySelectorAll('.favorites-product .product');
                                 favoriteItems.forEach(function(item) {
@@ -513,6 +519,9 @@ include("header.php");
                                     }
                                 });
                             }
+
+                            // Display all response headers (for debugging or logging)
+                            console.log(xhr.getAllResponseHeaders());
                         } else {
                             // There was an error adding/removing the item, display the error message
                             alert(response.message);
@@ -520,11 +529,26 @@ include("header.php");
                     } else {
                         // There was an error with the request
                         alert('Error: ' + xhr.statusText);
+
+                        // Log the specific error header if available
+                        console.log('Error Header: ', xhr.getResponseHeader('Content-Type'));
                     }
                 }
             };
+
+            // Open the request
             xhr.open("POST", "add_to_favorites.php", true);
+
+            // Set the request header
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            // Set a timeout to abort the request if it takes too long
+            var timeout = setTimeout(function() {
+                xhr.abort();
+                alert('Request timed out and was aborted.');
+            }, timeoutPeriod);
+
+            // Send the request with data
             xhr.send("name=" + encodeURIComponent(itemName) + "&image=" + encodeURIComponent(itemImage));
         }
 
@@ -535,4 +559,5 @@ include("header.php");
         }
     </script>
 </body>
+
 </html>

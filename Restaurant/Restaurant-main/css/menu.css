@@ -134,3 +134,6 @@ section{
 
     
 }
+.favorite-btn.clicked .fa-heart {
+    color: green;
+}
