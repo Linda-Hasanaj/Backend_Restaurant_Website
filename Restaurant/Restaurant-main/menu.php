@@ -278,11 +278,10 @@ include("header.php");
         new MenuItem("SRIRACHA BEEF SKEWERS", 15, "Beef, Garlic, Sesame Oil, Vinegar", "images/menu/main5.jpg")
     );
 
-$newMenu = array();
-foreach ($menu as &$item) {
-    $newMenu[$item->getPrice()] = $item;
-}
-unset($item); 
+    $newMain = array();
+    foreach ($main_courses as $item) {
+        $newMain[$item->getPrice()] = $item;
+    }
 
     ksort($newMain);
     $main_courses = array_values($newMain);
@@ -296,12 +295,11 @@ unset($item);
     );
 
     $newDess = array();
-    foreach ($desserts as &$item) {
-    $item->setPrice($item->getPrice() + 1);
-    $newDess[$item->getPrice()] = $item;
-}
-unset($item);
-
+    foreach ($desserts as &$item) { // Reference used here
+        $item->setPrice($item->getPrice() + 1); // Modify the price
+        $newDess[$item->getPrice()] = $item; // Store in new array
+    }
+    unset($item); // Unset reference
 
     ksort($newDess);
     $desserts = array_values($newDess);
@@ -312,14 +310,15 @@ unset($item);
         new MenuItem("POUR MA GUEULE", 19, "Pinot Noir 2019", "images/menu/wine3.jpg"),
         new MenuItem("DEANGELIS", 20, "Montepulciano D'Abruzzo 2019", "images/menu/wine4.jpg")
     );
-    
+   
     for ($i = 1; $i < count($wine_selection) - 1; $i++) {
-        $current = &$wine_selection[$i];
-        $current->setPrice($current->getPrice() + 5);
+        $current = &$wine_selection[$i]; // Reference used here
+        $current->setPrice($current->getPrice() + 5); // Modify the price
     }
-    
+    unset($current); // Unset reference
+   
     rsort($wine_selection);
-    
+   
     ?>
 
     <section class="starters">
