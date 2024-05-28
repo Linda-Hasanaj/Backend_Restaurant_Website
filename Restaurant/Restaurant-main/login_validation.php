@@ -25,6 +25,7 @@ class LoginValidator {
 
         return $valid;
     }
+
     public function authenticateUser($email, $password) {
         global $conn;
         $sql = "SELECT * FROM users WHERE email = ?";
@@ -41,5 +42,19 @@ class LoginValidator {
             return false;
         }
     }
+
+    public function modifyArray(&$array) {
+        $array[] = "New Element";
+    }
+
+    public function sortArrayByReference(&$array) {
+        sort($array);
+    }
 }
+
+// Example of using passing by reference 
+$array = array(3, 1, 4, 1, 5);
+$login_validator = new LoginValidator();
+$login_validator->sortArrayByReference($array);
+print_r($array); // Outputs: Array ( [0] => 1 [1] => 1 [2] => 3 [3] => 4 [4] => 5 )
 ?>
