@@ -19,11 +19,11 @@ function input_data($data) {
     return $data;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
     $userdate = input_data($_POST['date']);
     $person = input_data($_POST['people']);
     $time = input_data($_POST['time']);
-    
+   
     if ($userdate > $currentDate && !empty($userdate)) {
         $datevalid = true;
     } else {
@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .headerContent {
             text-align: center;
             color: white;
-            margin-top:1%;
+            margin-top: 1%;
         }
         .headerContent h1 {
             font-size: 3rem;
@@ -125,6 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             justify-content: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
         .inputs input[type="date"],
         .inputs select,
@@ -156,6 +157,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
+        #goldenHourInfo {
+            color: #ffb400;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -163,31 +168,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1>BOOK NOW</h1>
     <div class="inputs">
         <form method="POST" action="">
-            <input type="date" id="date" name="date" style="<?php echo $error1; ?>" required>
+            <input type="date" id="date" name="date" style="<?php echo $error1; ?>" value="<?php echo isset($_POST['date']) ? $_POST['date'] : ''; ?>" required>
             <select name="time" id="time" style="<?php echo $error3; ?>" required>
                 <option value="">Time</option>
-                <option value="14-00">14:00</option>
-                <option value="15-00">15:00</option>
-                <option value="16-00">16:00</option>
-                <option value="17-00">17:00</option>
-                <option value="18-00">18:00</option>
-                <option value="19-00">19:00</option>
-                <option value="20-00">20:00</option>
-                <option value="21-00">21:00</option>
-                <option value="22-00">22:00</option>
+                <option value="14-00" <?php echo isset($_POST['time']) && $_POST['time'] == '14-00' ? 'selected' : ''; ?>>14:00</option>
+                <option value="15-00" <?php echo isset($_POST['time']) && $_POST['time'] == '15-00' ? 'selected' : ''; ?>>15:00</option>
+                <option value="16-00" <?php echo isset($_POST['time']) && $_POST['time'] == '16-00' ? 'selected' : ''; ?>>16:00</option>
+                <option value="17-00" <?php echo isset($_POST['time']) && $_POST['time'] == '17-00' ? 'selected' : ''; ?>>17:00</option>
+                <option value="18-00" <?php echo isset($_POST['time']) && $_POST['time'] == '18-00' ? 'selected' : ''; ?>>18:00</option>
+                <option value="19-00" <?php echo isset($_POST['time']) && $_POST['time'] == '19-00' ? 'selected' : ''; ?>>19:00</option>
+                <option value="20-00" <?php echo isset($_POST['time']) && $_POST['time'] == '20-00' ? 'selected' : ''; ?>>20:00</option>
+                <option value="21-00" <?php echo isset($_POST['time']) && $_POST['time'] == '21-00' ? 'selected' : ''; ?>>21:00</option>
+                <option value="22-00" <?php echo isset($_POST['time']) && $_POST['time'] == '22-00' ? 'selected' : ''; ?>>22:00</option>
             </select>
             <select name="people" id="people" style="<?php echo $error2; ?>" required>
                 <option value="">People</option>
-                <option value="1">1 Person</option>
-                <option value="2">2 People</option>
-                <option value="3">3 People</option>
-                <option value="4">4 People</option>
-                <option value="5">5 People</option>
-                <option value="6">6 People</option>
-                <option value="7">7 People</option>
+                <option value="1" <?php echo isset($_POST['people']) && $_POST['people'] == '1' ? 'selected' : ''; ?>>1 Person</option>
+                <option value="2" <?php echo isset($_POST['people']) && $_POST['people'] == '2' ? 'selected' : ''; ?>>2 People</option>
+                <option value="3" <?php echo isset($_POST['people']) && $_POST['people'] == '3' ? 'selected' : ''; ?>>3 People</option>
+                <option value="4" <?php echo isset($_POST['people']) && $_POST['people'] == '4' ? 'selected' : ''; ?>>4 People</option>
+                <option value="5" <?php echo isset($_POST['people']) && $_POST['people'] == '5' ? 'selected' : ''; ?>>5 People</option>
+                <option value="6" <?php echo isset($_POST['people']) && $_POST['people'] == '6' ? 'selected' : ''; ?>>6 People</option>
+                <option value="7" <?php echo isset($_POST['people']) && $_POST['people'] == '7' ? 'selected' : ''; ?>>7 People</option>
             </select>
-            <button type="submit" class="btn btn-2">Book Now</button>
+            <button type="submit" name="submit_booking" class="btn btn-2">Book Now</button>
         </form>
+        <p id="goldenHourInfo"></p>
     </div>
 </div>
 
@@ -221,6 +227,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </footer>
 <script src="javascript/index.js"></script>
 <script>
+    document.getElementById('date').addEventListener('change', function() {
+        var date = this.value;
+        if (date) {
+            fetch(`golden_hour.php?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.golden_hour) {
+                        document.getElementById('goldenHourInfo').innerText = `The best view and the perfect time for photos will be during the golden hour at: ${data.golden_hour}`;
+                    } else if (data.error) {
+                        document.getElementById('goldenHourInfo').innerText = data.error;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching golden hour data:', error);
+                    document.getElementById('goldenHourInfo').innerText = 'An error occurred while fetching the golden hour information.';
+                });
+        }
+    });
+
     window.onload = function() {
         var success = "<?php echo isset($_GET['success']) && $_GET['success'] == 1 ? 'true' : 'false'; ?>";
         if (success === "true") {
