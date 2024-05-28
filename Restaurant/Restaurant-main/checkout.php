@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,8 +46,48 @@
 <body>
 
 <?php
-
 session_start();
+
+require_once 'error_handler.php';
+require_once 'db_connect.php';
+
+if (!isset($_COOKIE['cart'])) {
+    header('Location: delivery.php');
+    exit();
+}
+
+$cart = json_decode($_COOKIE['cart'], true);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $userId = $_SESSION['user_id'];
+    $address = $_POST['address'];
+    $orderDate = date('Y-m-d H:i:s');
+
+    if (empty($address)) {
+        $error_message = "Please provide a delivery address.";
+    } else {
+        foreach ($cart as $item) {
+            $itemName = $item['name'];
+            $itemPrice = $item['price'];
+            $quantity = $item['quantity'];
+            $totalAmount = $itemPrice * $quantity;
+
+            $stmt = $conn->prepare("INSERT INTO orders (user_id, order_date, item_name, item_price, quantity, total_amount, address) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("issdiis", $userId, $orderDate, $itemName, $itemPrice, $quantity, $totalAmount, $address);
+
+            if (!$stmt->execute()) {
+                trigger_error("Order could not be saved: " . $stmt->error, E_USER_ERROR);
+            }
+
+            $stmt->close();
+        }
+
+        setcookie('cart', '', time() - 3600, '/');
+        header('Location: index.php');
+        exit();
+    }
+}
+
 
 if(isset($_SESSION['registration_data'])) {
     $registration_data = $_SESSION['registration_data'];
@@ -132,44 +173,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
 }
-
-
-
-
-
 ?>
 
-    <header class="header">
-        <nav class="nav row" id="nav">
-            <h1 class="header-title">LaTulipe</h1>
-
-            <a href="javascript:void(0);" onclick="displayMenu()" class="menu-mobile" id="menu-mobile">
-                <i class="fa-solid fa-bars" ></i>
-            </a>
-            <ul class="nav-list row" id="nav-list">
-                <li class="nav-item"><a href="javascript:void(0);" onclick="removeMenu()" class="nav-link"><i class="fa-solid fa-xmark"></i></a></li>
-                <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="menu.php" class="nav-link">Menu</a></li>
-                <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a href="delivery.php" class="nav-link">Delivery</a></li>
-                <li class="nav-item"><a href="login.php" class="nav-link">Log In</a></li>
-                <li class="nav-item"><a href="register.php" class="nav-link">Register</a></li>
-                <li class="nav-item"><a href="booknow.php" class="nav-link btn">Book now</a></li>
-            </ul>
-        </nav>
+<?php include 'header.php'; ?>  
 
 
-        <div class="headerContent">
-            <aside  class="contact-form">
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <input type="text" name="namee" id="name" placeholder="Name" style="<?php echo $name_error; ?>" value="<?php echo $name_value; ?>">
-<input type="email" name="email" id="email" placeholder="Email" style="<?php echo $email_error; ?>" value="<?php echo $email_value; ?>">
-<input type="tel" name="number" id="phone" placeholder="Phone" style="<?php echo $number_error; ?>" value="<?php echo $number_value; ?>">
-                    <input type="text" name="address" id="address" placeholder="Address" style="<?php echo $address_error; ?>">
-                    <input type="text" name="message" id="message" placeholder="Message">
-                    <button id="sign" class="btn">Order Now</button>
-                    
-                </form>
+<aside  class="contact-form">
+<?php if (isset($error_message)) { echo "<p class='error'>$error_message</p>"; } ?>
+    <form method="POST" action="checkout.php">
+        <label for="address">Delivery Address:</label>
+        <input type="text" id="address" name="address" required>
+        <button type="submit" class="btn">Confirm Order</button>
+    </form>
             </aside>
         </div>
         <div id="successMessage" class="hidden">
@@ -177,7 +192,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         </div>
 
-    </header>
   
 
         <section class="map">

@@ -1,18 +1,14 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 require_once 'error_handler.php';
 require_once 'db_connect.php';
 
-if (!isset($_SESSION['favorite_items'])) {
-    $_SESSION['favorite_items'] = array();
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = array();
 }
 
-function addToFavorites($itemName, $itemImage) {
-    $_SESSION['favorite_items'][] = array('name' => $itemName, 'image' => $itemImage);
+function addToCart($item) {
+    $_SESSION['cart'][] = $item;
 }
 
 $menu = array();
@@ -37,9 +33,6 @@ if ($result->num_rows > 0) {
 function get_menu_html($menu) {
     $html = '';
     foreach ($menu as $key => $item) {
-        if (!file_exists($item['image'])) {
-            trigger_error("Image does not exist for product: " . $item['name'], E_USER_WARNING);
-        }
         $html .= '<div class="product">';
         $html .= '<div class="product-img"><img src="' . $item['image'] . '" alt="' . $item['name'] . '"></div>';
         $html .= '<div class="product-title"><h2 id="item-' . ($key + 1) . '">' . $item['name'] . '</h2>';
@@ -111,67 +104,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 
     <?php include("footer.php"); ?>
 
-    <script>
-        let cart = [];
-        let total = 0;
-
-        function sortMenu() {
-            const sortBy = document.getElementById("sort-option").value;
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'delivery.php?ajax=1&sort=' + sortBy, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    document.getElementById('menu-container').innerHTML = xhr.responseText;
-                    attachEventListeners(); // Re-attach event listeners after AJAX update
-                }
-            };
-            xhr.send();
-        }
-
-        function attachEventListeners() {
-            document.querySelectorAll('.add-to-cart').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    const name = this.getAttribute('data-name');
-                    const price = parseFloat(this.getAttribute('data-price'));
-                    addToCart(name, price);
-                });
-            });
-            document.getElementById('order-now').addEventListener('click', function() {
-                alert('Order placed!');
-                // Add your order handling logic here
-            });
-            document.getElementById('clear').addEventListener('click', function() {
-                clearCart();
-            });
-        }
-
-        function addToCart(name, price) {
-            cart.push({ name, price });
-            total += price;
-            updateCart();
-        }
-
-        function updateCart() {
-            const cartContainer = document.getElementById('cart');
-            cartContainer.innerHTML = '';
-            cart.forEach(item => {
-                const cartItem = document.createElement('div');
-                cartItem.textContent = `${item.name} - $${item.price}`;
-                cartContainer.appendChild(cartItem);
-            });
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
-        }
-
-        function clearCart() {
-            cart = [];
-            total = 0;
-            updateCart();
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            attachEventListeners();
-        });
-    </script>
     <script src="javascript/index.js"></script>
     <script src="javascript/delivery.js"></script>
 </body>
