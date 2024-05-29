@@ -1,6 +1,5 @@
 <?php
-var_dump($_SESSION); // Debug line
-
+var_dump($_SESSION); // to make it easier to debug!!
 
 ?>
 

@@ -49,7 +49,7 @@
 session_start();
 
 require_once 'error_handler.php';
-require_once 'db_connect.php';
+require_once 'db_connect.php'; // lidhja me db
 
 if (!isset($_COOKIE['cart'])) {
     header('Location: delivery.php');
@@ -59,6 +59,7 @@ if (!isset($_COOKIE['cart'])) {
 $cart = json_decode($_COOKIE['cart'], true);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // i merr te dhenat e userit nga login session!1
     $userId = $_SESSION['user_id'];
     $address = $_POST['address'];
     $orderDate = date('Y-m-d H:i:s');
@@ -71,10 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $itemPrice = $item['price'];
             $quantity = $item['quantity'];
             $totalAmount = $itemPrice * $quantity;
-
+            // insertimi i te dhenave te porosise ne db
             $stmt = $conn->prepare("INSERT INTO orders (user_id, order_date, item_name, item_price, quantity, total_amount, address) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("issdiis", $userId, $orderDate, $itemName, $itemPrice, $quantity, $totalAmount, $address);
 
+            // shfaqja e nje errori nese porosia deshton!
             if (!$stmt->execute()) {
                 trigger_error("Order could not be saved: " . $stmt->error, E_USER_ERROR);
             }
@@ -232,7 +234,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             var headerContent = document.querySelector(".headerContent");
             var successMessage = document.getElementById("successMessage");
 
-            // Set the dimensions of successMessage to match headerContent
+            // dimensions of success message
             successMessage.style.width = headerContent.offsetWidth + "px";
             successMessage.style.height = headerContent.offsetHeight + "px";
 

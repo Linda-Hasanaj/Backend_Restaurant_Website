@@ -1,7 +1,7 @@
 <?php
-session_start();
+session_start(); // e kemi hap nje sesion ne menyre qe te ruajme cart items
 require_once 'error_handler.php';
-require_once 'db_connect.php';
+require_once 'db_connect.php'; // lidhje me db
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = array();
@@ -21,12 +21,13 @@ if ($sortByPrice == 'asc') {
     $order = 'ORDER BY price DESC';
 }
 
-$sql = "SELECT name, price, description, image FROM menu_items $order";
+$sql = "SELECT name, price, description, image FROM menu $order";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $menu[] = $row;
+        $menu[] = $row; 
+        // Retrieves menu items from the database and sorts them based on the query parameter sort.
     }
 }
 
@@ -47,6 +48,7 @@ function get_menu_html($menu) {
 if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
     echo get_menu_html($menu);
     exit();
+    // Outputs the menu items as HTML if the request is an AJAX request.
 }
 ?>
 
@@ -106,5 +108,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 
     <script src="javascript/index.js"></script>
     <script src="javascript/delivery.js"></script>
+    
 </body>
 </html>

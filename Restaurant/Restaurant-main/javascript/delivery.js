@@ -8,11 +8,12 @@
             xhr.open('GET', 'delivery.php?ajax=1&sort=' + sortBy, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    document.getElementById('menu-container').innerHTML = xhr.responseText;
+                    document.getElementById('menu-container').innerHTML = xhr.responseText; 
+                    // xhr.readyState === 4: The request is complete.xhr.status === 200: The request was successful.
                     attachEventListeners(); // Re-attach event listeners after AJAX update
                 }
             };
-            xhr.send();
+            xhr.send(); // to send the request
         }
         
         function attachEventListeners() {
@@ -56,12 +57,12 @@
         function clearCart() {
             cart = [];
             total = 0;
-            updateCart();
+            updateCart(); // Refresh cart display
         }
         
         function placeOrder() {
-            document.cookie = "cart=" + JSON.stringify(cart) + "; path=/";
-            window.location.href = 'checkout.php';
+            document.cookie = "cart=" + JSON.stringify(cart) + "; path=/"; // Purpose: Stores the cart items in a cookie and redirects the user to the checkout page.
+            window.location.href = 'checkout.php'; // Redirect to checkout page
         }
         
         document.addEventListener('DOMContentLoaded', function() {
