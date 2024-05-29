@@ -2,6 +2,12 @@
     background-image: url(../images/home/headerBackground.jpg);
 }
 
+
+.headerContent{
+    background-image: url(../images/home/headerBackground.jpg);
+
+    
+}
 .headerContent > input {
     width: 50%;
     padding: 1.2em;
@@ -9,6 +15,8 @@
     border: none;
     line-height: 22px;
     background-color: var(--main-dark);
+    background-image: url(../images/home/headerBackground.jpg);
+
 }
 
 .nav-item:nth-child(5) .nav-link{
