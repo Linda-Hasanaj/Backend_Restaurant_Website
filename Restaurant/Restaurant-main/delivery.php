@@ -1,14 +1,19 @@
 <?php
-session_start(); // e kemi hap nje sesion ne menyre qe te ruajme cart items
+session_start();
 require_once 'error_handler.php';
-require_once 'db_connect.php'; // lidhje me db
+require_once 'db_connect.php';
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = array();
 }
 
-function addToCart($item) {
-    $_SESSION['cart'][] = $item;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    if (isset($data['action']) && $data['action'] == 'update_cart') {
+        $_SESSION['cart'] = $data['cart'];
+        echo json_encode(array('status' => 'success', 'cart' => $_SESSION['cart']));
+        exit();
+    }
 }
 
 $menu = array();
@@ -21,13 +26,12 @@ if ($sortByPrice == 'asc') {
     $order = 'ORDER BY price DESC';
 }
 
-$sql = "SELECT name, price, description, image FROM menu $order";
+$sql = "SELECT name, price, description, image FROM menu_items $order";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $menu[] = $row; 
-        // Retrieves menu items from the database and sorts them based on the query parameter sort.
+        $menu[] = $row;
     }
 }
 
@@ -48,7 +52,6 @@ function get_menu_html($menu) {
 if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
     echo get_menu_html($menu);
     exit();
-    // Outputs the menu items as HTML if the request is an AJAX request.
 }
 ?>
 
@@ -98,8 +101,8 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                 <p class="price" id="total">$0</p>
             </div>
             <div class="order-button">
-                <button class="btn" id="order-now">ORDER NOW</button>
-                <button class="btn" id="clear">CLEAR</button>
+                <button class="btn" id="order-now" onclick="placeOrder()">ORDER NOW</button>
+                <button class="btn" id="clear" onclick="clearCart()">CLEAR</button>
             </div>
         </aside>
     </section>
@@ -108,6 +111,5 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 
     <script src="javascript/index.js"></script>
     <script src="javascript/delivery.js"></script>
-    
 </body>
 </html>

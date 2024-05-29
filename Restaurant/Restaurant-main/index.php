@@ -8,7 +8,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "registration_db";
-$port=3306;
+$port=3307;
 
 
 // perdorimi i try and catch with PDO(e cila eshte metoda me e re dhe me e sygjeruar per lidhje me db!) 

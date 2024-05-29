@@ -149,7 +149,7 @@ $conn->close();
             <label for="new_password">New Password</label>
             <input type="password" name="new_password" id="new_password" placeholder="Enter new password" style="<?php echo $new_password_error; ?>">
         </div>
-        <button type="submit" <button type="submit" class="btn">Update Profile</button>
+        <button type="submit"  class="btn">Update Profile</button>
     </form>
 </div>
 

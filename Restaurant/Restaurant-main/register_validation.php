@@ -62,33 +62,27 @@ class RegisterValidator {
         global $conn;
     
         try {
-            // Prepare the SQL statement
             $sql = "INSERT INTO users (name, surname, email, number, password) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             if (!$stmt) {
                 throw new Exception("Prepare statement failed: " . $conn->error);
             }
     
-            // Hash the password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
-            // Bind parameters
+
             if (!$stmt->bind_param("sssss", $name, $surname, $email, $number, $hashed_password)) {
                 throw new Exception("Binding parameters failed: " . $stmt->error);
             }
     
-            // Execute the statement
             if (!$stmt->execute()) {
                 throw new Exception("Execute statement failed: " . $stmt->error);
             }
     
-            // Set the session user ID
-            $_SESSION['user_id'] = $stmt->insert_id; // Assuming 'id' is the auto-increment field in your 'users' table
+            $_SESSION['user_id'] = $stmt->insert_id; 
     
-            // Close the statement
             $stmt->close();
         } catch (Exception $e) {
-            // Log the error and display a generic message to the user
             error_log($e->getMessage());
             echo "Something went wrong. Please try again later.";
         }

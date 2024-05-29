@@ -21,3 +21,7 @@ function removeMenu(){
             behavior: 'smooth'
         });
     }
+
+
+
+    
