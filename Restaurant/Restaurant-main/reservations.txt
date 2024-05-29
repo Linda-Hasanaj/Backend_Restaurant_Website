@@ -14,3 +14,4 @@ Reservation made on 2024-06-06 for 4 people at 18-00 on 2024-05-22 16:26:53
 Reservation made on 2024-07-16 for 7 people at 21-00 on 2024-05-22 16:31:07
 Reservation made on 2024-05-24 for 1 people at 17-00 on 2024-05-22 16:31:47
 Reservation made on 2024-06-08 for 5 people at 20-00 on 2024-05-23 19:17:16
+Reservation by User ID: 1 on 2024-05-31 at 18-00 for 4 people

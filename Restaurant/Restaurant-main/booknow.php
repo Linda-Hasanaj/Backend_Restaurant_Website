@@ -57,32 +57,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
 
             if ($stmt->execute()) {
                 // Log the reservation
-                $file_path = "/Applications/XAMPP/xamppfiles/htdocs/Restaurant/Restaurant/Restaurant-main/reservations.txt";
+                $file_path = "C:/xampp/htdocs/Restaurant/Restaurant/Restaurant-main/reservations.txt";
                 $logfile = fopen($file_path, "a");
 
-                if ($logfile !== false) {
-                    $logEntry = "Reservation made on " . $userdate . " for " . $person . " people at " . $time . " on " . date("Y-m-d H:i:s") . "\n";
-                    fwrite($logfile, $logEntry);
+                if ($logfile) {
+                    $log = "Reservation by User ID: $user_id on $userdate at $time for $person people\n";
+                    fwrite($logfile, $log);
                     fclose($logfile);
                 }
-
-                echo "<div class='message-box'>Successfully written to the reservation.txt[file] and INTO THE TABLE RESERVATION[database].</div>";
-                echo "<script>setTimeout(function() { document.querySelector('.message-box').style.display = 'none'; }, 1500);</script>";
+                header("Location: booknow.php?success=1");
+                exit();
             } else {
-                echo "<div class='message-box'>Error: " . $stmt->error . "</div>";
-                echo "<script>setTimeout(function() { document.querySelector('.message-box').style.display = 'none'; }, 1500);</script>";
+                echo "Error: " . $stmt->error;
             }
 
             $stmt->close();
-            $conn->close();
         } else {
-            echo "<div class='message-box'>Error: User ID is missing.</div>";
-            echo "<script>setTimeout(function() { document.querySelector('.message-box').style.display = 'none'; }, 1500);</script>";
+            echo "User not logged in.";
         }
     }
 }
-?>
 
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
