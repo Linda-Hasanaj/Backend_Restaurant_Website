@@ -222,7 +222,7 @@ include("header.php");
         }
 
         .product-favorite .favorite-btn.clicked .fa-heart {
-            color: green;
+            color: red;
         }
     </style>
 </head>
@@ -358,26 +358,30 @@ include("header.php");
 
         <div class="desserts-title">DESSERTS</div>
         <div class="product-grid">
-            <?php
-            $desserts = array(
-                new MenuItem("BIG CHOCOLATE CAKE", 11, "With Fresh Cream & Hazelnut Ice Cream", "images/menu/dessert1.jpg"),
-                new MenuItem("MACARONS", 12, "4 macarons with different flavors", "images/menu/dessert2.jpg"),
-                new MenuItem("ASSORTED ICE CREAM", 10, "Berries, Chocolate & Vanilla", "images/menu/dessert3.jpg"),
-                new MenuItem("TIRAMISU", 9, "Fabulous Italian Dessert", "images/menu/dessert4.jpg"),
-                new MenuItem("SUMMER BERRY TART", 12, "Raspberries, blackberries, blueberries", "images/menu/dessert5.jpg")
-            );
+        <?php
+$desserts = array(
+    new MenuItem("BIG CHOCOLATE CAKE", 11, "With Fresh Cream & Hazelnut Ice Cream", "images/menu/dessert1.jpg"),
+    new MenuItem("MACARONS", 12, "4 macarons with different flavors", "images/menu/dessert2.jpg"),
+    new MenuItem("ASSORTED ICE CREAM", 10, "Berries, Chocolate & Vanilla", "images/menu/dessert3.jpg"),
+    new MenuItem("TIRAMISU", 9, "Fabulous Italian Dessert", "images/menu/dessert4.jpg"),
+    new MenuItem("SUMMER BERRY TART", 12, "Raspberries, blackberries, blueberries", "images/menu/dessert5.jpg")
+);
 
-            foreach ($desserts as $item) :
-                $isFavorite = false;
-                if (isset($_SESSION['favorites'])) {
-                    foreach ($_SESSION['favorites'] as $favorite) {
-                        if ($favorite['name'] === $item->getName() && $favorite['image'] === $item->getImage()) {
-                            $isFavorite = true;
-                            break;
-                        }
-                    }
-                }
-            ?>
+foreach ($desserts as &$item) : 
+    if (isset($_SESSION['favorites'])) {
+        foreach ($_SESSION['favorites'] as $key => &$favorite) { // Shtimi i & për referencë
+            if ($favorite['name'] === $item->getName() && $favorite['image'] === $item->getImage()) {
+                $isFavorite = true;
+                break;
+            }
+        }
+        if (!$isFavorite) {
+            unset($favorite); 
+        }
+    }
+?>
+
+
                 <div class="product">
                     <img src="<?php echo $item->getImage(); ?>" alt="<?php echo $item->getName(); ?>">
                     <div class="product-info">
