@@ -7,15 +7,18 @@
 .header{
     background-image: url(../images/home/section-four.jpg);
     background-size:cover;
+    background-color: rgba(26, 25, 25, 0.6);
+
+
 }
 
 
 
 .headerContent{
-    background-image: url(../images/home/section-four.jpg);
+    background-blend-mode: darken;
 
-    background-color: rgba(0, 0, 0, 0.6);
-}
+    background-image: url(../images/home/section-four.jpg);
+    background-color: rgba(26, 25, 25, 0.6);}
 
 
 .nav-item:nth-child(4) .nav-link{

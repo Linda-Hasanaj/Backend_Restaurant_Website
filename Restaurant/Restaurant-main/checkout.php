@@ -12,7 +12,7 @@ class CartException extends Exception {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if (!isset($_SESSION['user_id'])) {
-            throw new Exception("User ID is not set in the session.");
+            throw new Exception("You have to be loged in!");
         }
         if (empty($_SESSION['cart'])) {
             throw new Exception("Shopping cart is empty.");

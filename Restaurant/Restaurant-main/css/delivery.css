@@ -5,7 +5,7 @@
 
 .headerContent{
     background-image: url(../images/home/headerBackground.jpg);
-
+    background-color: rgba(26, 25, 25, 0.6);
     
 }
 .headerContent > input {

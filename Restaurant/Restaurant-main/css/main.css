@@ -60,7 +60,8 @@ i:before {
 }
 
 .header {
-    
+    background-color: rgba(26, 25, 25, 0.6);
+
     background-size: cover;
 }
 
@@ -105,6 +106,7 @@ i:before {
 }
 
 .headerContent {
+    background-color: rgba(26, 25, 25, 0.6);
     text-align: center;
     height: 90vh;
     display: flex;

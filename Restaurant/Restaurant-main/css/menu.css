@@ -7,9 +7,6 @@
     color: var(--gold-yellow);
 }
 
-.header{
-    background-image: url(../images/contact/Contact-img.jpg);
-}
 
 .information{
     background-color: rgba(0, 0, 0, 0.6);
@@ -21,7 +18,16 @@
 }
 
 .headerContent{
+    position: relative;
     background-image: url(../images/contact/Contact-img.jpg);
+    background-color: rgba(26, 25, 25, 0.6);
+    background-blend-mode: darken;
+    background-size: 150%; /* Adjust the percentage to zoom out the image */
+    background-position: center;
+    color: white; /* Ensure text is visible on dark background */
+    padding: 50px;
+    text-align: center;
+    height: 600px; /* Adjust height as needed */
 
 }
 
